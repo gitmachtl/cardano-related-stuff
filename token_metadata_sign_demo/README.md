@@ -2,7 +2,16 @@
 
 The little demo includes a signed json and an unsigned one. It shows the steps to create the "Signature" and "publicKey" entries.
 
-The signing is basically:
+The signing is basically done on the finalHash with the policy skey(s):
+
+```
+finalHash = hash(
+                  hash(CBOR(subject)) + 
+                  hash(CBOR(name)) + 
+                  hash(CBOR(value)) + 
+                  hash(CBOR(sequenceNumber))
+                )
+```
 
 > Most everything is encoded as CBOR, then hashed with Blake2b_256.
 > 
