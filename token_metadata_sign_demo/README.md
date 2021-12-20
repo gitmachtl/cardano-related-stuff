@@ -45,7 +45,7 @@ finalHash = hash(
 >         * hash with Blake2b_256 algorithm
 >       * logo
 >         
->         * encode bytes as CBOR
+>         * encode bytes as CBOR (value in the json is base64 encoded!)
 >         * hash with Blake2b_256 algorithm
 >       * url
 >         
