@@ -4,15 +4,15 @@ if [[ $# -eq 1 && ! $1 == "" ]]; then logFile=${1}; else echo -e "\e[33mUsage: \
 
 if [ ! -f "${logFile}" ]; then echo -e "\e[35mError: \e[0m\"${logFile}\" does not exist!\n"; exit 2; fi
 
-echo "Using Log file: ${1}"
+echo "Using Log file: ${logFile}"
 
 #get the first slotNo
-prevline=$(cat ${1} | grep -m1 TraceStartLeadershipCheck | jq -r .data.slot)
+prevline=$(cat ${logFile} | grep -m1 TraceStartLeadershipCheck | jq -r .data.slot)
 
 echo -e "Tracing now in realtime ...\n"
 
 #now tail it in realtime
-tail -Fn9999999 ${1} 2> /dev/null | \
+tail -Fn9999999 ${logFile} 2> /dev/null | \
 while read line ; do
 
     tmp=$(echo "$line" | grep TraceStartLeadershipCheck 2>/dev/null)
