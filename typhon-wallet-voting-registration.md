@@ -21,7 +21,7 @@ There are many ways to do this, here are the steps to do it with the [Typhon Wal
 
 1. Choose '**HARDWARE WALLET**' on the access page, select the Ledger device and click on '**Unlock with Ledger**'
 
-    <img src="https://user-images.githubusercontent.com/47434720/148038253-e9aba18a-9482-4177-b7b5-727396f16f95.png" width="100%">
+    <img src="https://user-images.githubusercontent.com/47434720/148056524-d08b0d2b-94c8-43a2-a86d-514844e84c44.png" width="100%">
     &nbsp;<br>
 
 
