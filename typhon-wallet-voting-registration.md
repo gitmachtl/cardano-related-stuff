@@ -116,6 +116,7 @@ There are many ways to do this, here are the steps to do it with the [Typhon Wal
     <img src="https://user-images.githubusercontent.com/47434720/148042280-a0832e80-f491-4445-8f97-5b340cf80966.png"  width=30%>
     &nbsp;<br>
     
-    **This concludes the registration process. 😃**
+### This concludes the registration process. 😃
 
+**Your Voting-Power will show up in the Catalyst Voting App once the voting is open in the current Fund-Round.**
 
