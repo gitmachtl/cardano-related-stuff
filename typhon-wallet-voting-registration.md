@@ -86,7 +86,7 @@ There are many ways to do this, here are the steps to do it with the [Typhon Wal
     &nbsp;<br>
 
 
-1. You can check the OnChain registration for the wallet by revisiting the **Voting** page, now let's switch to the MobilePhone-App.
+1. You can check the OnChain registration for the wallet by revisiting the **Voting** page. If you have forgotten your **4 digit PIN code**, you can redo the registration. Only the latest generated QR-Code will work with the Catalyst Voting App. Now let's switch to the MobilePhone-App to complete the registration.
 
     <img src="https://user-images.githubusercontent.com/47434720/148052454-92f1cc93-f1c9-4871-9860-46a919ee6738.png" width="100%">
     &nbsp;<br>
