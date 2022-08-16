@@ -1,11 +1,11 @@
 ## Tool to generate CLI Payment/Staking Signing-/Verification-Keys from Mnemonics
 
-This tool works with Mnemonics for normals Shelley(icarus) Wallets, Ledger-Hardware-Wallets and Trezor-Hardware-Wallets
+This tool works with Mnemonics for normal Shelley(icarus) Wallets, Ledger-Hardware-Wallets and Trezor-Hardware-Wallets
 
 ### Supported derivation methods with/without an additional Passphrase
 
-* icarus (shelley): current wallets like Daedalus, Yoroi, Eternl, Adalite and Trezor-HW-Wallets
-* trezor (icarus-trezor): like icarus but for the 24-word-seed entropy bug introduced back in the days within the Trezor-FW
+* wallet (icarus): current wallets like Daedalus, Yoroi, Eternl, Adalite and Trezor-HW-Wallets
+* trezor (icarus-trezor): like icarus but for the 24-word-seed entropy bug, introduced back in the days within the Trezor-FW
 * ledger (ledger-method): for Ledger-HW-Wallets
 
 ![image width=50%](https://user-images.githubusercontent.com/47434720/184905413-a9908236-8f9d-4693-8172-29710b1e8e3e.png)
