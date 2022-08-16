@@ -1,6 +1,6 @@
 ## Tool to generate CLI Payment/Staking Signing-/Verification-Keys from Mnemonics
 
-This tool works with Mnemonics for normal Shelley(icarus) Wallets, Ledger-Hardware-Wallets and Trezor-Hardware-Wallets
+This tool works with Mnemonics for normal Shelley(icarus) Wallets, Ledger-Hardware-Wallets and Trezor-Hardware-Wallets. The intention behind this tool was to have a fallback/backup ready just in case if something is wrong with the HW-Wallet, or it gets stolen and you want to quickly send out your funds to a safer place, etc...
 
 ### Supported derivation methods with/without an additional Passphrase
 
