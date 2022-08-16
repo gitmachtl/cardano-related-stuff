@@ -1,4 +1,4 @@
-## Tool to generate CLI Payment-/Staking Signing-/Verification-Keys from Mnemonics
+## Tool to generate CLI Payment/Staking Signing-/Verification-Keys from Mnemonics
 
 This tool works with Mnemonics for normals Shelley(icarus) Wallets, Ledger-Hardware-Wallets and Trezor-Hardware-Wallets
 
@@ -8,12 +8,12 @@ This tool works with Mnemonics for normals Shelley(icarus) Wallets, Ledger-Hardw
 * trezor (icarus-trezor): like icarus but for the 24-word-seed entropy bug introduced back in the days within the Trezor-FW
 * ledger (ledger-method): for Ledger-HW-Wallets
 
-![image](https://user-images.githubusercontent.com/47434720/184905413-a9908236-8f9d-4693-8172-29710b1e8e3e.png)
+![image width=50%](https://user-images.githubusercontent.com/47434720/184905413-a9908236-8f9d-4693-8172-29710b1e8e3e.png)
 
 
 ### Usage
 
-#### 0x_getKeysFromMnemonic.sh - Complete Script to derive all kinds of Keys/AccountNo/Index/Payment-Change ...
+#### 0x_getKeysFromMnemonic.sh :: Complete Script to derive all kinds of Keys/AccountNo/Index/Payment-Change ...
 
 ``` console
 
@@ -63,7 +63,7 @@ Examples:
 
 ```
 
-#### cardano-mnemonics-rootkey - Tool used by the script above, provides a HEX-RootKey from Mnemonics
+#### cardano-mnemonic-rootkey :: Tool used by the script above, provides a HEX-RootKey from Mnemonics
 
 ``` console
 
