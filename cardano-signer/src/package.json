@@ -1,7 +1,7 @@
 {
   "name": "cardano-signer",
-  "version": "1.0.0",
-  "description": "cardano-signer signs a given data(hex) with a signing key(hex)",
+  "version": "1.1.0",
+  "description": "cardano-signer signs a given data(hex) with a signing key(hex) or verify the signature via a public key(hex)",
   "main": "cardano-signer.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
