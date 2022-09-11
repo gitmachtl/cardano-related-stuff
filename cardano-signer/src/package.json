@@ -1,0 +1,14 @@
+{
+  "name": "cardano-signer",
+  "version": "1.0.0",
+  "description": "cardano-signer signs a given data(hex) with a signing key(hex)",
+  "main": "cardano-signer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "@gitmachtl - ATADA Stakepools Austria",
+  "license": "MIT",
+  "dependencies": {
+    "@emurgo/cardano-serialization-lib-nodejs": "^11.0.5"
+  }
+}
