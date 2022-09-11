@@ -1,7 +1,8 @@
 ## Tool to sign data with a normal/extended Cardano-Secret-Key
 
-This tool simply signs any given hexdata with the provided hex secret key. The key can be a normal key or an extended one. The tool ouputs the signed_data and also the public key from the given secret key. The public key can be verified again is needed.
+This tool simply signs any given hexdata with a provided secret key, also in hex format. The key can be a normal key or an extended one. The tool ouputs the signed_data and also the public key from the given secret key. The public key can be verified again is needed.
 
+![image](https://user-images.githubusercontent.com/47434720/189525587-0e9cbdd6-9e34-449f-bfcb-8600ba10e1b9.png)
 
 
 ### Usage
