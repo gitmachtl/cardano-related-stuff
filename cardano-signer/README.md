@@ -1,26 +1,37 @@
-## Tool to sign data with a normal/extended Cardano-Secret-Key
+## Tool to sign data with a Cardano-Secret-Key // verify data with a Cardano-Public-Key
 
-This tool simply signs any given hexdata with a provided secret key, also in hex format. The key can be a normal key or an extended one. The tool outputs the signed_data and also the public key from the given secret key. The public key can be verified again if needed.
+This tool can **sign** any hexdata with a provided normal or extended secret key. The signing output is a signature in hex format and also the public key of the provided secret key for verification.<br>
+The tool can also **verify** a signature for any hexdata together with a provided public key. The verification output is true(exitcode=0) or false(exitcode=1).
 
-![image](https://user-images.githubusercontent.com/47434720/189525587-0e9cbdd6-9e34-449f-bfcb-8600ba10e1b9.png)
+### Demo Signing
+
+![image](https://user-images.githubusercontent.com/47434720/189545429-72fc948e-fd05-41ae-bf08-6a830b0ee210.png)
+
+### Demo Verify
+
+![image](https://user-images.githubusercontent.com/47434720/189545483-181b1b2a-546b-4809-afb4-5f1d2428411a.png)
 
 
 ### Usage
 
-#### cardano-signer
-
 ``` console
 
-cardano-signer 1.0.0
+$ cardano-signer help
 
-Usage:
-   cardano-signer data_to_sign(hex) secret_key(hex)
+cardano-signer 1.1.0
 
-Output:
-   signed_data(hex) + public_key(hex)
+Usage Signing:
 
-Info:
-   Brought to you by: https://github.com/gitmachtl // Cardano SPO Scripts // ATADA Stakepools Austria
+   cardano-signer sign <data(hex)> <secret_key(hex)>
+
+   Output: signature(hex) + public_key(hex)
+
+
+Usage Verify:
+
+   cardano-signer verify <data(hex)> <signature_to_verify(hex)> <public_key(hex)>
+
+   Output: true(exitcode 0) or false(exitcode 1)
 
 ```
 
