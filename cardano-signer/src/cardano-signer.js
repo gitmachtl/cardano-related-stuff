@@ -60,12 +60,6 @@ async function main() {
         if ( ! workMode ) { showUsage(); }
         workMode = trimString(workMode.toLowerCase());
 
-        //if workMode is not sign or verify then exit with showUsage
-        if ( ! ( workMode == "sign" || workMode == "verify" ) ) {
-                console.log(`Error: Unsupported command`);
-                showUsage();
-        }
-
 	//choose the workmode
         switch (workMode) {
 
@@ -152,6 +146,12 @@ async function main() {
 				   else { console.log(`false`); process.exit(1); }
 
 			break;
+
+		default:
+		        //if workMode is not found exit with showUsage
+			console.log(`Error: Unsupported command`);
+			showUsage();
+
 	} //switch
 
 }
