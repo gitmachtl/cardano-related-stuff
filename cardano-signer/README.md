@@ -13,7 +13,7 @@ $ ./cardano-signer --help
 
 cardano-signer 1.4.0
 
-Signing a hexstring(data):
+Signing a hex-string or text-string:
 
    Syntax: cardano-signer sign
    Params: --data-hex "<hex_data>" | --data "<text>"            data/payload to sign in hexformat or textformat
@@ -24,7 +24,7 @@ Signing a hexstring(data):
    Output: signature_hex + publicKey_hex
 
 
-Verifying a hexstring(data)+signature+publicKey:
+Verifying a hex/text-string(data)+signature+publicKey:
 
    Syntax: cardano-signer verify
    Params: --data-hex "<data_hex>" | --data "<text>"            data/payload to verify in hexformat or textformat
