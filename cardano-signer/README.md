@@ -1,9 +1,10 @@
 ## Tool to sign data with a Cardano-Secret-Key // verify data with a Cardano-Public-Key
 
+<img src="https://user-images.githubusercontent.com/47434720/190806957-114b1342-7392-4256-9c5b-c65fc0068659.png" align=right width=40%></img>
 This tool can **sign** any hexdata with a provided normal or extended secret key. There is also support to sign a **CIP-8** conform payload. The signing output is a signature in hex format and also the public key of the provided secret key for verification.<br>
 The tool can also **verify** a signature for any hexdata together with a provided public key. The verification output is true(exitcode=0) or false(exitcode=1).
 
-
+   
 ### Usage
 
 ``` console
