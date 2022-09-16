@@ -8,6 +8,7 @@ const args = require('minimist')(process.argv.slice(2));
 
 const regExp = /^[0-9a-fA-F]+$/;
 
+//catch all exceptions that are not catched via try
 process.on('uncaughtException', function (error) {
     console.error(`${error}`); process.exit(1);
 });
@@ -126,15 +127,17 @@ function readKey2hex(key,type) { //reads a standard-cardano-skey/vkey-file-json 
 // first parameter -> workMode: sign or verify
 //
 // workMode: sign
-//          --data -> hexdata that should be signed
-//    --secret-key -> signing key in hex format or the path to a file (json/txt)
-//      --out-file -> signed data in hex format + public key in hex format
+// --data / --data-hex -> textdata / hexdata that should be signed
+//        --secret-key -> signing key in hex format or the path to a file (json/txt)
+//              --cip8 -> enable CIP-8 signing
+//           --address -> signing address (CIP-8 mode)
+//          --out-file -> signed data in hex format + public key in hex format
 //
 // workMode: verify
-//          --data -> hexdata that should be verified
-//     --signature -> signed data(signature) in hex format for verification
-//    --public-key -> public key for verification or the path to a file (json/txt)
-//          output -> true (exitcode 0) or false (exitcode 1)
+// --data / --data-hex -> textdata / hexdata that should be verified
+//         --signature -> signed data(signature) in hex format for verification
+//        --public-key -> public key for verification or the path to a file (json/txt)
+//              output -> true (exitcode 0) or false (exitcode 1)
 async function main() {
 
         //show help or usage if no parameter is provided
@@ -182,7 +185,7 @@ async function main() {
 					var sign_addr_hex = CardanoWasm.Address.from_bech32(sign_addr).to_hex();
 				} catch (error) { console.error(`Error: The CIP-8 signing address '${sign_addr}' is not a valid bech address`); process.exit(1); }
 
-				//generate the Signature1 inner cbor
+				//generate the Signature1 inner cbor (single signing key)
 				const signature1_cbor = Buffer.from(cbor.encode(new Map().set(1,-8).set('address',Buffer.from(sign_addr_hex,'hex')))).toString('hex')
 
 				//generate the data to sign cbor -> overwrites the current sign_data_hex variable at the end
