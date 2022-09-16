@@ -216,11 +216,11 @@ async function main() {
 			//sign the data
 			try {
 			var signedBytes = prvKey.sign(Buffer.from(sign_data_hex, 'hex')).to_bytes();
-			var signedData = Buffer.from(signedBytes).toString('hex');
+			var signature = Buffer.from(signedBytes).toString('hex');
 			} catch (error) { console.error(`Error: ${error}`); process.exit(1); }
 
-			//output the signed data and the public key
-			var content = signedData + " " + pubKey;
+			//output the signature data and the public key
+			var content = signature + " " + pubKey;
 			var out_file = args['out-file'];
 		        //if there is no --out-file parameter specified or the parameter alone (true) then output to the console
 			if ( typeof out_file === 'undefined' || out_file === true ) { console.log(content); }
@@ -254,13 +254,13 @@ async function main() {
 			//check that the given data is a hex string
 			if ( ! regExp.test(verify_data_hex) ) { console.error(`Error: Data to verify is not a valid hex string`); process.exit(1); }
 
-			//get signed_data(signature) to verify -> store it in signed_data
-			var signed_data = args['signature'];
-		        if ( typeof signed_data === 'undefined' || signed_data === true ) { console.error(`Error: Missing signature`); showUsage(); }
-		        signed_data = trimString(signed_data.toLowerCase());
+			//get the signature to verify -> store it in signature
+			var signature = args['signature'];
+		        if ( typeof signature === 'undefined' || signature === true ) { console.error(`Error: Missing signature`); showUsage(); }
+		        signature = trimString(signature.toLowerCase());
 
-			//check that the given signed_data is a hex string
-			if ( ! regExp.test(signed_data) ) { console.error(`Error: Signature(signed_data) is not a valid hex string`); process.exit(1); }
+			//check that the given signature is a hex string
+			if ( ! regExp.test(signature) ) { console.error(`Error: Signature is not a valid hex string`); process.exit(1); }
 
 			//get public key -> store it in public_key
 			var key_file_hex = args['public-key'];
@@ -276,7 +276,7 @@ async function main() {
 
 			//load the Ed25519Signature
 			try {
-			var ed25519signature = CardanoWasm.Ed25519Signature.from_hex(signed_data);
+			var ed25519signature = CardanoWasm.Ed25519Signature.from_hex(signature);
 			} catch (error) { console.error(`Error: ${error}`); process.exit(1); }
 
 			//do the verification
