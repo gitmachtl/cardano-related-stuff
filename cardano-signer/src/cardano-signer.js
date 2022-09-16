@@ -1,9 +1,9 @@
 const appname = "cardano-signer"
-const version = "1.3.0"
+const version = "1.4.0"
 
 const CardanoWasm = require("@emurgo/cardano-serialization-lib-nodejs")
+const cbor = require("cbor");
 const fs = require("fs");
-
 const args = require('minimist')(process.argv.slice(2));
 
 const regExp = /^[0-9a-fA-F]+$/;
@@ -18,16 +18,18 @@ function showUsage(){
         console.log(`Signing a hexstring(data):`)
         console.log(``)
         console.log(`   Syntax: ${appname} sign`);
-	console.log(`   Params: --data "<data_hex>"   				data to sign in hexformat`);
+	console.log(`   Params: --data-hex "<hex_data>" | --data "<text>"     	data/payload to sign in hexformat or textformat`);
 	console.log(`           --secret-key "<secretKey_file|secretKey_hex>"	path to a signing-key-file or a direct signing-hex-key string`);
-	console.log(`           [--out-file "<path_to_file>"]			optional path to an output file (default: standard-output)`);
+	console.log(`           [--cip8]     					will enable CIP-8 compatible payload signing (also needs --address)`);
+	console.log(`           [--address]  					signing address in CIP-8 mode (bech format like 'stake1_...')`);
+	console.log(`           [--out-file "<path_to_file>"]			path to an output file (default: standard-output)`);
         console.log(`   Output: signature_hex + publicKey_hex`);
         console.log(``)
         console.log(``)
         console.log(`Verifying a hexstring(data)+signature+publicKey:`)
         console.log(``)
         console.log(`   Syntax: ${appname} verify`);
-	console.log(`   Params: --data "<data_hex>"   				data to verify in hexformat`);
+	console.log(`   Params: --data-hex "<data_hex>" | --data "<text>"     	data/payload to verify in hexformat or textformat`);
 	console.log(`           --signature "<signature_hex>"			signature in hexformat`);
 	console.log(`           --public-key "<publicKey_file|publicKey_hex>"	path to a public-key-file or a direct public-hex-key string`);
         console.log(`   Output: true(exitcode 0) or false(exitcode 1)`)
@@ -149,15 +151,48 @@ async function main() {
 	//choose the workmode
         switch (workMode) {
 
-                case "sign":  //SIGN HEX DATA
+                case "sign":  //SIGN DATA
 
-			//get data to sign -> store it in sign_data
-			var sign_data = args['data'];
-		        if ( typeof sign_data === 'undefined' || sign_data === true ) { console.error(`Error: Missing data to sign`); showUsage(); }
-		        sign_data = trimString(sign_data.toLowerCase());
+			//get data-hex to sign -> store it in sign_data_hex
+			var sign_data_hex = args['data-hex'];
+		        if ( typeof sign_data_hex === 'undefined' || sign_data_hex === true ) {
+
+				//no data-hex parameter present, lets try the data parameter
+				var sign_data = args['data'];
+			        if ( typeof sign_data === 'undefined' || sign_data === true ) { console.error(`Error: Missing data / data-hex to sign`); showUsage();}
+
+				//data parameter present, lets convert it to hex and store it in the sign_data_hex variable
+				sign_data_hex = Buffer.from(sign_data).toString('hex');
+			}
+		        sign_data_hex = trimString(sign_data_hex.toLowerCase());
 
 			//check that the given data is a hex string
-			if ( ! regExp.test(sign_data) ) { console.error(`Error: Data to sign is not a valid hex string`); showUsage(); }
+			if ( ! regExp.test(sign_data_hex) ) { console.error(`Error: Data to sign is not a valid hex string`); showUsage(); }
+
+			//CIP8-Flag-Check
+                        //generate a new cip-8 conform payload data -> OVERWRITES sign_data_hex at the end !
+                        const cip8_flag = args['cip8'];
+                        if ( cip8_flag === true ) {
+
+				//get signing address (stake or paymentaddress in bech format)
+				var sign_addr = args['address'];
+			        if ( typeof sign_addr === 'undefined' || sign_addr === true ) { console.error(`Error: Missing CIP-8 signing address (bech-format)`); showUsage(); }
+			        sign_addr = trimString(sign_addr.toLowerCase());
+				try {
+					var sign_addr_hex = CardanoWasm.Address.from_bech32(sign_addr).to_hex();
+				} catch (error) { console.error(`Error: The CIP-8 signing address '${sign_addr}' is not a valid bech address`); process.exit(1); }
+
+				//generate the Signature1 inner cbor
+				const signature1_cbor = Buffer.from(cbor.encode(new Map().set(1,-8).set('address',Buffer.from(sign_addr_hex,'hex')))).toString('hex')
+
+				//generate the data to sign cbor -> overwrites the current sign_data_hex variable at the end
+				const sign_data_array = [ "Signature1", Buffer.from(signature1_cbor,'hex'),Buffer.from(''), Buffer.from(sign_data_hex,'hex') ]
+
+				//overwrite the sign_data_hex with the cbor encoded sign_data_array
+				sign_data_hex = cbor.encode(sign_data_array).toString('hex');
+
+                        } //CIP8-Flag
+
 
 			//get signing key -> store it in sign_key
 			var key_file_hex = args['secret-key'];
@@ -169,7 +204,7 @@ async function main() {
 			//load the private key (normal or extended)
 			try {
 			if ( sign_key.length <= 64 ) { var prvKey = CardanoWasm.PrivateKey.from_normal_bytes(Buffer.from(sign_key, "hex")); }
-						else { var prvKey = CardanoWasm.PrivateKey.from_extended_bytes(Buffer.from(sign_key, "hex")); }
+						else { var prvKey = CardanoWasm.PrivateKey.from_extended_bytes(Buffer.from(sign_key.substring(0,128), "hex")); } //use only the first 64 bytes (128 chars)
 			} catch (error) { console.log(`Error: ${error}`); process.exit(1); }
 
 			//generate the public key from the secret key for external verification
@@ -177,7 +212,7 @@ async function main() {
 
 			//sign the data
 			try {
-			var signedBytes = prvKey.sign(Buffer.from(sign_data, 'hex')).to_bytes();
+			var signedBytes = prvKey.sign(Buffer.from(sign_data_hex, 'hex')).to_bytes();
 			var signedData = Buffer.from(signedBytes).toString('hex');
 			} catch (error) { console.error(`Error: ${error}`); process.exit(1); }
 
@@ -198,15 +233,23 @@ async function main() {
 
 
 
-                case "verify":	//VERIFY HEX DATA
+                case "verify":	//VERIFY DATA
 
-			//get data to verify -> store it in verify_data
-			var verify_data = args['data'];
-		        if ( typeof verify_data === 'undefined' || verify_data === true ) { console.error(`Error: Missing data to verify`); showUsage(); }
-		        verify_data = trimString(verify_data.toLowerCase());
+			//get data-hex to verify -> store it in verify_data_hex
+			var verify_data_hex = args['data-hex'];
+		        if ( typeof verify_data_hex === 'undefined' || verify_data_hex === true ) {
+
+				//no data-hex parameter present, lets try the data parameter
+				var verify_data = args['data'];
+			        if ( typeof verify_data === 'undefined' || verify_data === true ) { console.error(`Error: Missing data / data-hex to verify`); showUsage();}
+
+				//data parameter present, lets convert it to hex and store it in the verify_data_hex variable
+				verify_data_hex = Buffer.from(verify_data).toString('hex');
+			}
+		        verify_data_hex = trimString(verify_data_hex.toLowerCase());
 
 			//check that the given data is a hex string
-			if ( ! regExp.test(verify_data) ) { console.error(`Error: Data to verify is not a valid hex string`); process.exit(1); }
+			if ( ! regExp.test(verify_data_hex) ) { console.error(`Error: Data to verify is not a valid hex string`); process.exit(1); }
 
 			//get signed_data(signature) to verify -> store it in signed_data
 			var signed_data = args['signature'];
@@ -225,7 +268,7 @@ async function main() {
 
 			//load the public key
 			try {
-			var publicKey = CardanoWasm.PublicKey.from_bytes(Buffer.from(public_key,'hex'));
+			var publicKey = CardanoWasm.PublicKey.from_bytes(Buffer.from(public_key.substring(0,64),'hex')); //only use the first 32 bytes (64 chars)
 			} catch (error) { console.error(`Error: ${error}`); process.exit(1); }
 
 			//load the Ed25519Signature
@@ -234,11 +277,12 @@ async function main() {
 			} catch (error) { console.error(`Error: ${error}`); process.exit(1); }
 
 			//do the verification
-			const verified = publicKey.verify(Buffer.from(verify_data,'hex'),ed25519signature);
+			const verified = publicKey.verify(Buffer.from(verify_data_hex,'hex'),ed25519signature);
 
 			//output the result and exit with the right exitcode
 			if ( verified ) { console.log(`true`); process.exit(0); }
 				   else { console.log(`false`); process.exit(1); }
+
 			break;
 
 
@@ -253,5 +297,6 @@ async function main() {
 
 main();
 
+process.exit(0); //we're finished, exit with errorcode 0 (all good)
 
 
