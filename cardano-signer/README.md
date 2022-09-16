@@ -1,6 +1,6 @@
 ## Tool to sign data with a Cardano-Secret-Key // verify data with a Cardano-Public-Key
 
-This tool can **sign** any hexdata with a provided normal or extended secret key. There is also support to sign a **CIP-8** compatible payload. The signing output is a signature in hex format and also the public key of the provided secret key for verification.<br>
+This tool can **sign** any hexdata with a provided normal or extended secret key. There is also support to sign a **CIP-8** conform payload. The signing output is a signature in hex format and also the public key of the provided secret key for verification.<br>
 The tool can also **verify** a signature for any hexdata together with a provided public key. The verification output is true(exitcode=0) or false(exitcode=1).
 
 
@@ -99,7 +99,7 @@ Error: The file 'owner.staking.skey' is not a verification/public key json
 
 ### Release Notes
 
-* 1.4.0: New parameter `--cip8` enables CIP-8 compatible payload signing. New Syntax - Now you can use the parameter `--data` for pure text payloads, and `--data-hex` for hex-encoded payloads. Also a new parameter `--address` was added, which is needed to specify the signing bech address in CIP-8 mode.
+* 1.4.0: New parameter `--cip8` enables CIP-8 conform payload signing. New Syntax - Now you can use the parameter `--data` for pure text payloads, and `--data-hex` for hex-encoded payloads. Also a new parameter `--address` was added, which is needed to specify the signing bech address in CIP-8 mode.
 * 1.3.0: Now supporting true parameter/flag names. Added new optional `--out-file` option, which would write the signature+publicKey to a file and not to the standard output.
 * 1.2.0: Added support to use Cardano-Key-Files in addition to a direct Key-Hexstring. Supports standard sKey/vKey JSON files and also files with a Bech32-Key in it, like the ones generated via jcli
 * 1.1.0: Added functionality to do also a Verification of the Signature together with the data and the Public Key.
