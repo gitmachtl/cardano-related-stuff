@@ -1,7 +1,7 @@
 {
   "name": "cardano-signer",
-  "version": "1.4.0",
-  "description": "cardano-signer signs a given data(hex) with a signing key(file or hex) or verify the signature via a public key(file or hex). also it can produce a cip-8 conform payload signing.",
+  "version": "1.5.0",
+  "description": "cardano-signer signs a given data(hex) with a signing key(file or hex) or verify the signature via a public key(file or hex). also it can produce a cip-8 and cip-36 conform payload signing.",
   "main": "cardano-signer.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,7 +10,12 @@
   "license": "MIT",
   "dependencies": {
     "@emurgo/cardano-serialization-lib-nodejs": "^11.0.5",
+    "blake2": "^4.1.1",
     "cbor": "^8.1.0",
     "minimist": "^1.2.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gitmachtl/cardano-related-stuff.git"
   }
 }
