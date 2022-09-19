@@ -1,5 +1,5 @@
 const appname = "cardano-signer"
-const version = "1.5.0"
+const version = "1.6.0"
 
 const CardanoWasm = require("@emurgo/cardano-serialization-lib-nodejs")
 const cbor = require("cbor");
@@ -15,13 +15,15 @@ process.on('uncaughtException', function (error) {
 });
 
 
+
 function showUsage(){
         console.log(``)
-        console.log(`Signing a hex-string or text-string:`)
+        console.log(`Signing a hex/text-string or a binary-file:`)
         console.log(``)
         console.log(`   Syntax: ${appname} sign`);
-	console.log(`   Params: --data-hex "<hex_data>" | --data "<text>"     	data/payload to sign in hexformat or textformat`);
-	console.log(`           --secret-key "<secretKey_file|secretKey_hex>"	path to a signing-key-file or a direct signing-hex-key string`);
+	console.log(`   Params: --data-hex "<hex>" | --data "<text>" | --data-file "<path_to_file>"`);
+	console.log(`								data/payload/file to sign in hexformat or textformat`);
+	console.log(`           --secret-key "<path_to_file>|<hex>|<bech>"		path to a signing-key-file or a direct signing hex/bech-key string`);
 	console.log(`           [--out-file "<path_to_file>"]			path to an output file, default: standard-output`);
         console.log(`   Output: signature_hex + publicKey_hex`);
         console.log(``)
@@ -29,8 +31,9 @@ function showUsage(){
         console.log(`Signing a payload in CIP-8 mode:`)
         console.log(``)
         console.log(`   Syntax: ${appname} sign --cip8`);
-	console.log(`   Params: --data-hex "<hex_data>" | --data "<text>"     	data/payload to sign in hexformat or textformat`);
-	console.log(`           --secret-key "<secretKey_file|secretKey_hex>"	path to a signing-key-file or a direct signing-hex-key string`);
+	console.log(`   Params: --data-hex "<hex>" | --data "<text>" | --data-file "<path_to_file>"`);
+	console.log(`								data/payload/file to sign in hexformat or textformat`);
+	console.log(`           --secret-key "<path_to_file>|<hex>|<bech>"		path to a signing-key-file or a direct signing hex/bech-key string`);
 	console.log(`           --address "<bech_address>" 				signing address (bech format like 'stake1_...')`);
 	console.log(`           [--out-file "<path_to_file>"]			path to an output file, default: standard-output`);
         console.log(`   Output: signature_hex + publicKey_hex`);
@@ -39,9 +42,9 @@ function showUsage(){
         console.log(`Signing a catalyst registration/delegation in CIP-36 mode:`)
         console.log(``)
         console.log(`   Syntax: ${appname} sign --cip36`);
-	console.log(`   Params: --vote-public-key "<publicKey_file|publicKey_hex>"   public-key-file or public-hex-key string to delegate the votingpower to`);
+	console.log(`   Params: --vote-public-key "<path_to_file>|<hex>|<bech>"	public-key-file or public hex/bech-key string to delegate the votingpower to`);
 	console.log(`           --vote-weight <unsigned_int>				relative weight of the delegated votingpower, default: 1 (=100% for single delegation)`);
-	console.log(`           --secret-key "<secretKey_file|secretKey_hex>"	signing-key-file or a direct signing-hex-key string of the stake key (votingpower)`);
+	console.log(`           --secret-key "<path_to_file>|<hex>|<bech>"		signing-key-file or a direct signing hex/bech-key string of the stake key (votingpower)`);
 	console.log(`           --rewards-address "<bech_address>"			rewards stake address (bech format like 'stake1_...')`);
 	console.log(`           --nonce <unsigned_int>				nonce value, this is typically the slotheight(tip) of the chain`);
 	console.log(`           [--vote-purpose <unsigned_int>]			optional parameter (unsigned int), default: 0 (catalyst)`);
@@ -49,12 +52,13 @@ function showUsage(){
         console.log(`   Output: registration_data_cbor_hex`);
         console.log(``)
         console.log(``)
-        console.log(`Verifying a hex/text-string(data)+signature+publicKey:`)
+        console.log(`Verifying a hex/text-string or a binary-file(data) via signature + publicKey:`)
         console.log(``)
         console.log(`   Syntax: ${appname} verify`);
-	console.log(`   Params: --data-hex "<hex_data>" | --data "<text>"     	data/payload to verify in hexformat or textformat`);
-	console.log(`           --signature "<signature_hex>"			signature in hexformat`);
-	console.log(`           --public-key "<publicKey_file|publicKey_hex>"	path to a public-key-file or a direct public-hex-key string`);
+	console.log(`   Params: --data-hex "<hex>" | --data "<text>" | --data-file "<path_to_file>"`);
+	console.log(`								data/payload/file to verify in hexformat or textformat`);
+	console.log(`           --signature "<hex>"					signature in hexformat`);
+	console.log(`           --public-key "<path_to_file>|<hex>|<bech>"		path to a public-key-file or a direct public hex/bech-key string`);
         console.log(`   Output: true(exitcode 0) or false(exitcode 1)`)
         console.log(``)
         console.log(``)
@@ -82,7 +86,7 @@ function readKey2hex(key,type) { //reads a standard-cardano-skey/vkey-file-json 
 
 			// try to use the parameter as a filename for a cardano skey json with a cborHex entry
 			try {
-				const key_json = JSON.parse(fs.readFileSync(key)); //parse the given key as a json file
+				const key_json = JSON.parse(fs.readFileSync(key,'utf8')); //parse the given key as a json file
 				const is_singing_key = key_json.type.toLowerCase().includes('signing') //boolean if the json contains the keyword 'signing' in the type field
 				if ( ! is_singing_key ) { console.error(`Error: The file '${key}' is not a signing/secret key json`); process.exit(1); }
 				key_hex = key_json.cborHex.substring(4).toLowerCase(); //cut off the leading "5820/5840" from the cborHex
@@ -101,10 +105,17 @@ function readKey2hex(key,type) { //reads a standard-cardano-skey/vkey-file-json 
 				return key_hex;
 			} catch (error) {}
 
+			// try to use the parameter as a bech encoded string
+			try {
+				const tmp_key = CardanoWasm.PrivateKey.from_bech32(key); //temporary key to check about bech32 format
+				key_hex = Buffer.from(tmp_key.as_bytes()).toString('hex');
+				return key_hex;
+			} catch (error) {}
+
 			// try to use the parameter as a direct hex string
 			key_hex = trimString(key.toLowerCase());
 			//check that the given key is a hex string
-			if ( ! regExp.test(key) ) { console.error(`Error: Provided secret key is not a valid hex string, or the file is missing`); process.exit(1); }
+			if ( ! regExp.test(key) ) { console.error(`Error: Provided secret key '${key}' is not a valid secret key. Or not a hex string, bech encoded key, or the file is missing`); process.exit(1); }
 			return key_hex;
 			break;
 
@@ -113,7 +124,7 @@ function readKey2hex(key,type) { //reads a standard-cardano-skey/vkey-file-json 
 
 			// try to use the parameter as a filename for a cardano vkey json with a cborHex entry
 			try {
-				const key_json = JSON.parse(fs.readFileSync(key)); //parse the given key as a json file
+				const key_json = JSON.parse(fs.readFileSync(key,'utf8')); //parse the given key as a json file
 				const is_verification_key = key_json.type.toLowerCase().includes('verification') //boolean if the json contains the keyword 'verification' in the type field
 				if ( ! is_verification_key ) { console.error(`Error: The file '${key}' is not a verification/public key json`); process.exit(1); }
 				key_hex = key_json.cborHex.substring(4).toLowerCase(); //cut off the leading "5820/5840" from the cborHex
@@ -132,10 +143,17 @@ function readKey2hex(key,type) { //reads a standard-cardano-skey/vkey-file-json 
 				return key_hex;
 			} catch (error) {}
 
+			// try to use the parameter as a bech encoded string
+			try {
+				const tmp_key = CardanoWasm.PublicKey.from_bech32(key); //temporary key to check about bech32 format
+				key_hex = Buffer.from(tmp_key.as_bytes()).toString('hex');
+				return key_hex;
+			} catch (error) {}
+
 			// try to use the parameter as a direct hex string
 			key_hex = trimString(key.toLowerCase());
 			//check that the given key is a hex string
-			if ( ! regExp.test(key) ) { console.error(`Error: Provided public key is not a valid hex string, or the file is missing`); process.exit(1); }
+			if ( ! regExp.test(key) ) { console.error(`Error: Provided public key '${key}' is not a valid public key. Or not a hex string, bech encoded key, or the file is missing`); process.exit(1); }
 			return key_hex;
 			break;
 
@@ -155,19 +173,19 @@ function getHash(content) { //hashes a given hex-string content with blake2b_256
 //
 // workMode: sign (defaultmode without flags)
 // --data / --data-hex -> textdata / hexdata that should be signed
-//        --secret-key -> signing key in hex format or the path to a file (json/txt)
+//        --secret-key -> signing key in hex/bech/file format
 //          --out-file -> signed data in hex format + public key in hex format
 //
 // workMode: sign --cip8 FLAG
 // --data / --data-hex -> textdata / hexdata that should be signed
-//        --secret-key -> signing key in hex format or the path to a file (json/txt)
+//        --secret-key -> signing key in hex/bech/file format
 //           --address -> signing address
 //          --out-file -> signed data in hex format + public key in hex format
 //
 // workMode: sign --cip36 FLAG
-//   --vote-public-key -> textdata / hexdata of the voting public key (one or multiple)
+//   --vote-public-key -> public key in hex/bech/file format of the voting public key (one or multiple)
 //       --vote-weight -> relative voting weight (one or multiple)
-//        --secret-key -> signing key in hex format or the path to a file (json/txt)
+//        --secret-key -> signing key in hex/bech/file format
 //   --rewards-address -> rewards stake address
 //             --nonce -> nonce, typically the slotheight(tip) of the chain
 //      --vote-purpose -> optional unsigned_int parameter, default: 0 (catalyst)
@@ -176,7 +194,7 @@ function getHash(content) { //hashes a given hex-string content with blake2b_256
 // workMode: verify (defaultmode without flags)
 // --data / --data-hex -> textdata / hexdata that should be verified
 //         --signature -> signed data(signature) in hex format for verification
-//        --public-key -> public key for verification or the path to a file (json/txt)
+//        --public-key -> public key for verification in hex/bech/file format
 //              output -> true (exitcode 0) or false (exitcode 1)
 //
 
@@ -212,10 +230,22 @@ async function main() {
 
 				//no data-hex parameter present, lets try the data parameter
 				var sign_data = args['data'];
-			        if ( typeof sign_data === 'undefined' || sign_data === true ) { console.error(`Error: Missing data / data-hex to sign`); showUsage();}
+			        if ( typeof sign_data === 'undefined' || sign_data === true ) {
 
+					//no data parameter present, lets try the data-file parameter
+					var sign_data_file = args['data-file'];
+				        if ( typeof sign_data_file === 'undefined' || sign_data_file === true ) {console.error(`Error: Missing data / data-hex / data-file to sign`); showUsage();}
+
+					//data-file present lets read the file and store it hex encoded in sign_data_hex
+					try {
+						sign_data_hex = fs.readFileSync(sign_data_file,null).toString('hex'); //reads the file as binary
+					} catch (error) { console.log(`Error: Can't read data-file '${sign_data_file}'`); process.exit(1); }
+
+				} else {
 				//data parameter present, lets convert it to hex and store it in the sign_data_hex variable
 				sign_data_hex = Buffer.from(sign_data).toString('hex');
+				}
+
 			}
 		        sign_data_hex = trimString(sign_data_hex.toLowerCase());
 
@@ -268,10 +298,22 @@ async function main() {
 
 				//no data-hex parameter present, lets try the data parameter
 				var sign_data = args['data'];
-			        if ( typeof sign_data === 'undefined' || sign_data === true ) { console.error(`Error: Missing data / data-hex to sign`); showUsage();}
+			        if ( typeof sign_data === 'undefined' || sign_data === true ) {
 
+					//no data parameter present, lets try the data-file parameter
+					var sign_data_file = args['data-file'];
+				        if ( typeof sign_data_file === 'undefined' || sign_data_file === true ) {console.error(`Error: Missing data / data-hex / data-file to sign`); showUsage();}
+
+					//data-file present lets read the file and store it hex encoded in sign_data_hex
+					try {
+						sign_data_hex = fs.readFileSync(sign_data_file,null).toString('hex'); //reads the file as binary
+					} catch (error) { console.log(`Error: Can't read data-file '${sign_data_file}'`); process.exit(1); }
+
+				} else {
 				//data parameter present, lets convert it to hex and store it in the sign_data_hex variable
 				sign_data_hex = Buffer.from(sign_data).toString('hex');
+				}
+
 			}
 		        sign_data_hex = trimString(sign_data_hex.toLowerCase());
 
@@ -457,10 +499,22 @@ async function main() {
 
 				//no data-hex parameter present, lets try the data parameter
 				var verify_data = args['data'];
-			        if ( typeof verify_data === 'undefined' || verify_data === true ) { console.error(`Error: Missing data / data-hex to verify`); showUsage();}
+			        if ( typeof verify_data === 'undefined' || verify_data === true ) {
 
+					//no data parameter present, lets try the data-file parameter
+					var verify_data_file = args['data-file'];
+				        if ( typeof verify_data_file === 'undefined' || verify_data_file === true ) {console.error(`Error: Missing data / data-hex / data-file to verify`); showUsage();}
+
+					//data-file present lets read the file and store it hex encoded in verify_data_hex
+					try {
+						verify_data_hex = fs.readFileSync(verify_data_file,null).toString('hex'); //reads the file as binary
+					} catch (error) { console.log(`Error: Can't read data-file '${verify_data_file}'`); process.exit(1); }
+
+				} else {
 				//data parameter present, lets convert it to hex and store it in the verify_data_hex variable
 				verify_data_hex = Buffer.from(verify_data).toString('hex');
+				}
+
 			}
 		        verify_data_hex = trimString(verify_data_hex.toLowerCase());
 

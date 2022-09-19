@@ -1,7 +1,7 @@
 {
   "name": "cardano-signer",
-  "version": "1.5.0",
-  "description": "cardano-signer signs a given data(hex) with a signing key(file or hex) or verify the signature via a public key(file or hex). also it can produce a cip-8 and cip-36 conform payload signing.",
+  "version": "1.6.0",
+  "description": "cardano-signer signs a given data(hex/text/file) with a signing key(hex/bech/file) or verify the signature via a public key(hex/bech/file). also it can produce a cip-8 and cip-36 conform payload signing.",
   "main": "cardano-signer.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
