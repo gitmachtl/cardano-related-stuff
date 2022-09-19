@@ -1,14 +1,14 @@
-# Tool to sign data with a Cardano-Secret-Key // verify data with a Cardano-Public-Key
+# Tool to sign data with a Cardano-Secret-Key // verify data with a Cardano-Public-Key // generate CIP-8 & CIP-36 data
 
 <img src="https://user-images.githubusercontent.com/47434720/190806957-114b1342-7392-4256-9c5b-c65fc0068659.png" align=right width=40%></img>
 
 ### What can cardano-signer sign?
-* **Sign** any hexdata or textdata with a provided normal or extended secret key. The signing output is a signature in hex format and also the public key of the provided secret key for verification.
+* **Sign** any hexdata, textdata or binaryfile with a provided normal or extended secret key. The key can be provided in hex, bech or file format. The signing output is a signature in hex format and also the public key of the provided secret key for verification.
 * Sign payloads in **CIP-8** mode. The signing output is a signature in hex format and also the public key of the provided secret key for verification.
 * Generate and sign **Catalyst registration/delegation** metadata cbor in **CIP-36** mode. This also includes relatively weighted voting power delegation. The output is the registration/delegation data in cbor hex format or a binary cbor file, which can be transmitted on chain as it is.
 
 ### What can cardano-signer verify?
-* **Verify** a signature for any hexdata or textdata together with a provided public key. The verification output is true(exitcode=0) or false(exitcode=1).
+* **Verify** a signature for any hexdata, textdata or binaryfile together with a provided public key. The key can be provided in hex, bech or file format. The verification output is true(exitcode=0) or false(exitcode=1).
 
 <br>
 <br>
@@ -19,13 +19,14 @@
 
 $ ./cardano-signer help
 
-cardano-signer 1.5.0
+cardano-signer 1.6.0
 
-Signing a hex-string or text-string:
+Signing a hex/text-string or a binary-file:
 
    Syntax: cardano-signer sign
-   Params: --data-hex "<hex_data>" | --data "<text>"            data/payload to sign in hexformat or textformat
-           --secret-key "<secretKey_file|secretKey_hex>"        path to a signing-key-file or a direct signing-hex-key string
+   Params: --data-hex "<hex>" | --data "<text>" | --data-file "<path_to_file>"
+                                                                data/payload/file to sign in hexformat or textformat
+           --secret-key "<path_to_file>|<hex>|<bech>"           path to a signing-key-file or a direct signing hex/bech-key string
            [--out-file "<path_to_file>"]                        path to an output file, default: standard-output
    Output: signature_hex + publicKey_hex
 
@@ -33,8 +34,9 @@ Signing a hex-string or text-string:
 Signing a payload in CIP-8 mode:
 
    Syntax: cardano-signer sign --cip8
-   Params: --data-hex "<hex_data>" | --data "<text>"            data/payload to sign in hexformat or textformat
-           --secret-key "<secretKey_file|secretKey_hex>"        path to a signing-key-file or a direct signing-hex-key string
+   Params: --data-hex "<hex>" | --data "<text>" | --data-file "<path_to_file>"
+                                                                data/payload/file to sign in hexformat or textformat
+           --secret-key "<path_to_file>|<hex>|<bech>"           path to a signing-key-file or a direct signing hex/bech-key string
            --address "<bech_address>"                           signing address (bech format like 'stake1_...')
            [--out-file "<path_to_file>"]                        path to an output file, default: standard-output
    Output: signature_hex + publicKey_hex
@@ -43,9 +45,9 @@ Signing a payload in CIP-8 mode:
 Signing a catalyst registration/delegation in CIP-36 mode:
 
    Syntax: cardano-signer sign --cip36
-   Params: --vote-public-key "<publicKey_file|publicKey_hex>"   public-key-file or public-hex-key string to delegate the votingpower to
+   Params: --vote-public-key "<path_to_file>|<hex>|<bech>"      public-key-file or public hex/bech-key string to delegate the votingpower to
            --vote-weight <unsigned_int>                         relative weight of the delegated votingpower, default: 1 (=100% for single delegation)
-           --secret-key "<secretKey_file|secretKey_hex>"        signing-key-file or a direct signing-hex-key string of the stake key (votingpower)
+           --secret-key "<path_to_file>|<hex>|<bech>"           signing-key-file or a direct signing hex/bech-key string of the stake key (votingpower)
            --rewards-address "<bech_address>"                   rewards stake address (bech format like 'stake1_...')
            --nonce <unsigned_int>                               nonce value, this is typically the slotheight(tip) of the chain
            [--vote-purpose <unsigned_int>]                      optional parameter (unsigned int), default: 0 (catalyst)
@@ -53,12 +55,13 @@ Signing a catalyst registration/delegation in CIP-36 mode:
    Output: registration_data_cbor_hex
 
 
-Verifying a hex/text-string(data)+signature+publicKey:
+Verifying a hex/text-string or a binary-file(data) via signature + publicKey:
 
    Syntax: cardano-signer verify
-   Params: --data-hex "<hex_data>" | --data "<text>"            data/payload to verify in hexformat or textformat
-           --signature "<signature_hex>"                        signature in hexformat
-           --public-key "<publicKey_file|publicKey_hex>"        path to a public-key-file or a direct public-hex-key string
+   Params: --data-hex "<hex>" | --data "<text>" | --data-file "<path_to_file>"
+                                                                data/payload/file to verify in hexformat or textformat
+           --signature "<hex>"                                  signature in hexformat
+           --public-key "<path_to_file>|<hex>|<bech>"           path to a public-key-file or a direct public hex/bech-key string
    Output: true(exitcode 0) or false(exitcode 1)
 
 ```
@@ -107,6 +110,13 @@ $ cardano-signer sign \
       --data-hex "8f21b675423a65244483506122492f5720d7bd35d70616348089678ed4eb07a9" \
       --secret-key owner.staking.vkey
 Error: The file 'owner.staking.vkey' is not a signing/secret key json
+
+### SIGN A FILE WITH A KEY-FILE
+
+$ cardano-signer sign --data-file test.txt --secret-key test.skey
+
+caacb18c46319f55b932efa77357f14b66b27aa908750df2c91800dc59711015ea2e568974ac0bcabf9b1c4708b877c2b94a7658c2dcad78b108049062572e09 57758911253f6b31df2a87c10eb08a2c9b8450768cb8dd0d378d93f7c2e220f0
+
 ```
 
 <br>
@@ -149,19 +159,21 @@ $ cardano-signer sign --cip36 \
 
 a219ef64a5018182582057758911253f6b31df2a87c10eb08a2c9b8450768cb8dd0d378d93f7c2e220f0010258209be513df12b3fabe7c1b8c3f9fab0968eb2168d5689bf981c2f7c35b11718b2703581de0c13582aec9a44fcc6d984be003c5058c660e1d2ff1370fd8b49ba73f041a0449d908050019ef65a1015840c839244556db17a2df914c7291c891e5abd1bd580de7786d640da9e27983efe86495cbee900eb685c08e367e778bb0860c6e366b9ec715d8fba824ef55c8aa0f
 
-### REGISTER/DELEGATE TO MULTIPLE VOTING-KEYS WITH VOTINGPOWER 25%,75%
+### REGISTER/DELEGATE TO MULTIPLE VOTING-KEYS WITH VOTINGPOWER 10%,20%,70%
 
 $ cardano-signer sign --cip36 \
       --rewards-address "stake_test1urqntq4wexjylnrdnp97qq79qkxxvrsa9lcnwr7ckjd6w0cr04y4p" \
       --secret-key ../owner.staking.skey \
-      --vote-public-key somevote.vkey \
-      --vote-weight 25 \
+      --vote-public-key ../somevote.vkey \
+      --vote-weight 10 \
       --vote-public-key "C2CD50D8A231FBC1444D65ABAB4F6BF74178E6DE64722558EEEF0B73DE293A8A" \
-      --vote-weight 75 \
-      --nonce 71948552
+      --vote-weight 20 \
+      --vote-public-key "ed25519_pk128c305nw9xh20kearuhcwj447kzlvxdfttkk6uwnrf6qfjm9276svd678w" \
+      --vote-weight 70 \
+      --nonce 71948552 \
       --out-file catalyst-multidelegation.cbor
       
-a219ef64a5018282582057758911253f6b31df2a87c10eb08a2c9b8450768cb8dd0d378d93f7c2e220f01819825820c2cd50d8a231fbc1444d65abab4f6bf74178e6de64722558eeef0b73de293a8a184b0258209be513df12b3fabe7c1b8c3f9fab0968eb2168d5689bf981c2f7c35b11718b2703581de0c13582aec9a44fcc6d984be003c5058c660e1d2ff1370fd8b49ba73f041a0449d908050019ef65a1015840897b6475593eea7095048e754ba3c9bf95109a5a3e5897e6b49decd932ba005aa559be5a5fb6420c6e011f3a94b002198c52cfb473dbf1b5d3e62c9148c40200
+a219ef64a5018382582099d1d0c4cdc8a4b206066e9606c6c3729678bd7338a8eab9bffdffa39d3df9580a825820c2cd50d8a231fbc1444d65abab4f6bf74178e6de64722558eeef0b73de293a8a1482582051f117d26e29aea7db3d1f2f874ab5f585f619a95aed6d71d31a7404cb6557b518460258209be513df12b3fabe7c1b8c3f9fab0968eb2168d5689bf981c2f7c35b11718b2703581de0c13582aec9a44fcc6d984be003c5058c660e1d2ff1370fd8b49ba73f041a0449d908050019ef65a1015840ecce4b2e10146857b9f583ce01b10a26726022963d47fd61d0fbb67b543428fa46315d4e35b2ab73e7e15f620883176422a19e780a751d71ac488053365e6402
 
 ```
 
@@ -208,12 +220,21 @@ $ cardano-signer verify \
       --public-key owner.staking.skey
 Error: The file 'owner.staking.skey' is not a verification/public key json
 
+### VERIFY A FILE WITH A SIGNATURE AND A KEY-FILE
+
+$ cardano-signer verify --data-file test.txt --public-key test.vkey --signature "caacb18c46319f55b932efa77357f14b66b27aa908750df2c91800dc59711015ea2e568974ac0bcabf9b1c4708b877c2b94a7658c2dcad78b108049062572e09"
+
+true
 ```
 
 <br>
 <br>
 
 ## Release Notes
+
+* **1.6.0**
+   - New Syntax - Now you can use the parameter `--data-file` to use any binary file as the data source to sign.
+   - Added the function to directly use bech encoded secret and public keys for the signing/verification. You can mix the formats.
 
 * **1.5.0**
    - New CIP-36 mode via parameter `--cip36`. This enables the new catalyst/governance registration and votingpower (multi-)delegation mode. Output generates a signed cbor file or hex_string.
