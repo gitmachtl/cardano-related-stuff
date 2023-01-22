@@ -212,7 +212,7 @@ for (( tmpCnt=0; tmpCnt<${rewardsAvailableLength}; tmpCnt++ ))
 do
 	purpose=$(jq -r ".[${tmpCnt}].purpose" <<< ${rewardsAvailable})
 	amount=$(jq -r ".[${tmpCnt}].amount" <<< ${rewardsAvailable})
-	echo -e "\e[0mRewards available (${purpose}): \e[33m${amount} SUNDAE\e[0m"
+	echo -e "\e[0mRewards available (${purpose}): \e[33m$(convertToSundae ${amount}) SUNDAE\e[0m"
 done
 echo
 
