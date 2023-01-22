@@ -135,7 +135,7 @@ ask() {
 if [ $# -ne 4 ]; then
 cat >&2 <<EOF
 
-Usage: $(basename $0) <StakeAddress> <PathTo stake.skey> <PaymentAddress> <PathTo payment.skey>
+Usage: $(basename $0) <StakeAddress> <PathToStake.skey> <PaymentAddress> <PathToPayment.skey>
 
 
 Parameters:
@@ -150,7 +150,7 @@ Parameters:
 
 Example:
 
-   $(basename $0) myWallet stake1uypayp2nyzy66tmcz6yjuth59pym0df83rjpk0758fhqrncq8vcdz stake.skey addr1v9ux8dwy800s5pnq327g9uzh8f2fw98ldytxqaxumh3e8kqumfr6d payment.skey
+   $(basename $0) stake1uypayp2nyzy66tmcz6yjuth59pym0df83rjpk0758fhqrncq8vcdz stake.skey addr1v9ux8dwy800s5pnq327g9uzh8f2fw98ldytxqaxumh3e8kqumfr6d payment.skey
 
 
 EOF
@@ -220,11 +220,11 @@ tmp=$(jq . <<< ${response} 2> /dev/null); if [[ $? -ne 0 ]]; then echo -e "\e[35
 echo -e "\e[32mDONE\e[0m"
 echo
 
+echo -e "\e[0mOnly selecting UTXOs without Assets ..."
 
 #Selecting only utxos without assets on it
 utxoSet=$(jq -r "[ .[0].utxo_set[] | select( .\"asset_list\" == [] ) ]" <<< ${response})
 utxoSetLength=$(jq -r "length" <<< ${utxoSet})
-
 
 #Select utxos until we have at least 2 ADA (2000000 lovelaces) of utxo inputs
 inputList=""
@@ -235,13 +235,13 @@ do
 	tx_index=$(jq -r ".[${tmpCnt}].tx_index" <<< ${utxoSet})
 	value=$(jq -r ".[${tmpCnt}].value" <<< ${utxoSet})
 	inputList+="{\"txId\": \"${tx_hash}\",\"index\": ${tx_index}},"
-	echo -e "\e[0mUsing Input [${tmpCnt}]:\t${tx_hash}#${tx_index}\t${value} lovelaces"
+	echo -e "\e[0m   Using UTXO [${tmpCnt}]:\t${tx_hash}#${tx_index}\t${value} lovelaces"
 	utxoSum=$(( ${utxoSum} + ${value} ));
-	if [[ ${value} -ge 2000000 ]]; then break; fi #if we already have 2 ADA, stop it
+	if [[ ${value} -ge 5000000 ]]; then break; fi #if we already have 5 ADA, stop it
 done
-if [[ ${value} -lt 2000000 ]]; then echo -e "\n\e[35mNot enough funds on the payment address, you need at least 2 ADA on it!\n\e[0m"; exit 0; fi
+if [[ ${value} -lt 5000000 ]]; then echo -e "\n\e[35mNot enough funds on the payment address, you need at least 5 ADA on it!\n\e[0m"; exit 0; fi
 inputList=${inputList%?} #remove the last ',' char at the end
-
+echo -e "\e[32mDONE\e[0m"
 
 #Request the claiming transaction from SundaeSwap
 echo
@@ -270,7 +270,10 @@ echo -e "\e[0m"
 
 #Signing the tx-raw with the additional witnesses
 txSignedFile="${tempDir}/tx.signed"
-echo -e "\e[0mSigning the tx-raw with the secret keys '${stakeSKEY}', '${paymentSKEY}':\e[32m ${txSignedFile}\e[35m"
+echo -e "\e[0mSigning the tx-raw with the secret keys '${stakeSKEY}', '${paymentSKEY}':\e[32m ${txSignedFile}\e[90m"
+echo
+echo -e "${cardanocli} transaction sign \ \n\t--tx-file \"${txRawFile}\" \ \n\t--signing-key-file \"${stakeSKEY}\" \ \n\t--signing-key-file \"${paymentSKEY}\" \ \n\t--mainnet \ \n\t--out-file \"${txSignedFile}\"\n"
+
 ${cardanocli} transaction sign --tx-file "${txRawFile}" --signing-key-file "${stakeSKEY}" --signing-key-file "${paymentSKEY}" --mainnet --out-file "${txSignedFile}"
 checkError "$?"; if [ $? -ne 0 ]; then exit $?; fi;
 echo -ne "\e[90m"
