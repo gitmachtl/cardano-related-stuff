@@ -49,7 +49,7 @@ Parameters:
 
 Example:
 
-   claimRISO.sh myWallet stake1uypayp2nyzy66tmcz6yjuth59pym0df83rjpk0758fhqrncq8vcdz stake.skey addr1v9ux8dwy800s5pnq327g9uzh8f2fw98ldytxqaxumh3e8kqumfr6d payment.skey
+   claimRISO.sh stake1uypayp2nyzy66tmcz6yjuth59pym0df83rjpk0758fhqrncq8vcdz stake.skey addr1v9ux8dwy800s5pnq327g9uzh8f2fw98ldytxqaxumh3e8kqumfr6d payment.skey
 
 ```
 
