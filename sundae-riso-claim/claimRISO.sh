@@ -204,12 +204,17 @@ response=$(curl -s -m 20 -X POST "${sundaeAPI}/rewards" --data "{\"addresses\": 
 tmp=$(jq . <<< ${response} 2> /dev/null); if [[ $? -ne 0 ]]; then echo -e "\e[35mError during rewards query!\n\e[0m"; exit 1; fi
 echo -e "\e[32mDONE\e[0m"
 echo
-rewardsAvailable=$(jq ".rewards | flatten | .[0].amount" <<< ${response} 2> /dev/null)
-if [[ ${rewardsAvailable} == null ]]; then echo -e "\e[35mNo rewards available!\n\e[0m"; exit 0; fi
-rewardsAvailable=$(convertToSundae ${rewardsAvailable})
-echo -e "\e[0mRewards available: \e[33m${rewardsAvailable} SUNDAE\e[0m"
-echo
 
+rewardsAvailable=$(jq -r ".rewards | flatten" <<< ${response} 2> /dev/null)
+rewardsAvailableLength=$(jq -r "length" <<< ${rewardsAvailable})
+if [[ ${rewardsAvailableLength} -eq 0 ]]; then echo -e "\e[35mNo rewards available!\n\e[0m"; exit 0; fi
+for (( tmpCnt=0; tmpCnt<${rewardsAvailableLength}; tmpCnt++ ))
+do
+	purpose=$(jq -r ".[${tmpCnt}].purpose" <<< ${rewardsAvailable})
+	amount=$(jq -r ".[${tmpCnt}].amount" <<< ${rewardsAvailable})
+	echo -e "\e[0mRewards available (${purpose}): \e[33m${amount} SUNDAE\e[0m"
+done
+echo
 
 #Get UTXO Information for the payment address via koios
 echo -e "\e[0mGet UTXOs for address \e[32m${paymentAddr}\e[0m via ${koiosAPI}/address_info:\e[0m"
@@ -300,7 +305,7 @@ if ask "\n\e[33mDoes this look good for you, continue ?" N; then
 	echo -e "\e[32mDONE\n"
 
 	#Show the TxID
-	txID=$(${cardanocli} transaction txid --tx-file ${txSignedFile}); echo -e "\e[0m TxID is: \e[32m${txID}\e[0m"
+	txID=$(${cardanocli} transaction txid --tx-file "${txSignedFile}"); echo -e "\e[0m TxID is: \e[32m${txID}\e[0m"
 	checkError "$?"; if [ $? -ne 0 ]; then exit $?; fi;
 	echo -e "\e[0mTracking: \e[32m${transactionExplorer}/${txID}\n\e[0m"
 
