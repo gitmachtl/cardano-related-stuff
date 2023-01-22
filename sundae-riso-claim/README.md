@@ -53,6 +53,18 @@ Example:
 
 ```
 
+
+## What is it doing under the hood?
+
+1) Checking the given parameters for the stake-address, stake-key, payment-address, payment-key
+1) Requesting the available rewards via the SundaeSwap API `https://api.sundae-rewards.sundaeswap.finance/api/v0/rewards`
+1) Requesting UTXO information to pay the transaction fees via koios API `https://api.koios.rest/api/v0/address_info`
+1) Generating the right query command and request the transaction raw-tx via the SundaeSwap API `https://api.sundae-rewards.sundaeswap.finance/api/v0/rewards/claim`
+1) Convert the returned cborHex data into a cardano-cli readable format
+1) Sign the raw-tx with the stake-key and the payment-key
+1) Submit the signed tx via cardano-node
+
+
 ## Disclaimer
 
 This script is using the API provided via SundaeSwap. Please only use a small payment address, and not your pledge address or one with a huge amount of ADA on it. Use it at your own risk!  
