@@ -200,12 +200,25 @@ echo
 echo -e "\e[0mCheck if there are rewards available via ${sundaeAPI}/rewards:\e[0m"
 echo -ne "\e[0mQuery ... "
 response=$(curl -s -m 20 -X POST "${sundaeAPI}/rewards" --data "{\"addresses\": [\"${stakeAddr}\"]}" 2> /dev/null)
-#check if the received json is a valid one
+
+#Check if the received json is a valid one
 tmp=$(jq . <<< ${response} 2> /dev/null); if [[ $? -ne 0 ]]; then echo -e "\e[35mError during rewards query!\n\e[0m"; exit 1; fi
 echo -e "\e[32mDONE\e[0m"
 echo
 
-rewardsAvailable=$(jq -r ".rewards | flatten" <<< ${response} 2> /dev/null)
+#Filter for already claimed rewards -> seenTxID is set for the entry
+rewardsClaimed=$(jq -r "[ .rewards | flatten | .[] | select ( .seenTxId != \"\" ) ]" <<< ${response} 2> /dev/null)
+rewardsClaimedLength=$(jq -r "length" <<< ${rewardsClaimed})
+for (( tmpCnt=0; tmpCnt<${rewardsClaimedLength}; tmpCnt++ ))
+do
+	purpose=$(jq -r ".[${tmpCnt}].purpose" <<< ${rewardsClaimed})
+	amount=$(jq -r ".[${tmpCnt}].amount" <<< ${rewardsClaimed})
+	echo -e "\e[0mRewards already claimed (${purpose}): \e[32m$(convertToSundae ${amount}) SUNDAE\e[0m"
+done
+echo
+
+#Filter out already claimed rewards -> seenTxID is empty for the entry
+rewardsAvailable=$(jq -r "[ .rewards | flatten | .[] | select ( .seenTxId == \"\" ) ]" <<< ${response} 2> /dev/null)
 rewardsAvailableLength=$(jq -r "length" <<< ${rewardsAvailable})
 if [[ ${rewardsAvailableLength} -eq 0 ]]; then echo -e "\e[35mNo rewards available!\n\e[0m"; exit 0; fi
 for (( tmpCnt=0; tmpCnt<${rewardsAvailableLength}; tmpCnt++ ))
