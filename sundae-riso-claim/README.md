@@ -18,7 +18,12 @@ You just need to download the [script](https://raw.githubusercontent.com/gitmach
 wget -OclaimRISO.sh https://raw.githubusercontent.com/gitmachtl/cardano-related-stuff/master/sundae-riso-claim/claimRISO.sh
 chmod +x claimRISO.sh
 ``` 
-In case you also need `cardano-cli`, you can find the binary also in this repo.
+In case you also need `cardano-cli`, you can find the binary also in this repo. Download the `cardano-cli.tar.gz` archive and extract it via:
+``` console
+wget -Ocardano-cli.tar.gz https://github.com/gitmachtl/cardano-related-stuff/raw/master/sundae-riso-claim/cardano-cli.tar.gz
+tar -xf cardano-cli.tar.gz
+```
+
 
 ## Configuration
 
