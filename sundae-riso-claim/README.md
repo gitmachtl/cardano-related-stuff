@@ -24,6 +24,8 @@ wget -Ocardano-cli.tar.gz https://github.com/gitmachtl/cardano-related-stuff/raw
 tar -xf cardano-cli.tar.gz
 ```
 
+> This script will be updated in the future to support the tx-submit also via the `koios`API, but there are some issues currently and i didn't want to hold the script back until they are resolved. So **you will need a normal running cardano-node** to submit the tx via this script.
+
 
 ## Configuration
 
