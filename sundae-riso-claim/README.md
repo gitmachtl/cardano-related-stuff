@@ -10,6 +10,7 @@ Make sure you have `curl` and `jq` installed on your system. If you're working w
 ``` console
 sudo apt update && sudo apt install curl jq -y
 ```
+> This script will be updated in the future to support the tx-submit also via the `koios`API, but there are some issues currently and i didn't want to hold the script back until they are resolved. So **you currently need a normal running cardano-node & cardano-cli** to submit the tx via this script.
 
 ## Install
 
@@ -23,9 +24,6 @@ In case you also need `cardano-cli`, you can find the binary also in this repo. 
 wget -Ocardano-cli.tar.gz https://github.com/gitmachtl/cardano-related-stuff/raw/master/sundae-riso-claim/cardano-cli.tar.gz
 tar -xf cardano-cli.tar.gz
 ```
-
-> This script will be updated in the future to support the tx-submit also via the `koios`API, but there are some issues currently and i didn't want to hold the script back until they are resolved. So **you will need a normal running cardano-node** to submit the tx via this script.
-
 
 ## Configuration
 
