@@ -5,10 +5,10 @@ The script is using the `koios` API to request the needed UTXO information.
 
 ## What binaries are needed
 
-Make sure you have `curl`, `jq` and `xxd` installed on your system. If you're working with a debian/ubuntu based system you can simply install the packages via:
+Make sure you have `curl` and `jq` installed on your system. If you're working with a debian/ubuntu based system you can simply install the packages via:
 
 ``` console
-sudo apt update && sudo apt install curl jq xxd -y
+sudo apt update && sudo apt install curl jq -y
 ```
 
 ## Install
