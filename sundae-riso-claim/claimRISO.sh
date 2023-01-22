@@ -297,11 +297,10 @@ if ask "\n\e[33mDoes this look good for you, continue ?" N; then
 
 	${cardanocli} transaction submit --tx-file "${txSignedFile}" --mainnet
 	checkError "$?"; if [ $? -ne 0 ]; then exit $?; fi
-
 	echo -e "\e[32mDONE\n"
 
 	#Show the TxID
-	txID=$(${cardanocli} transaction txid --tx-file ${txFile}); echo -e "\e[0m TxID is: \e[32m${txID}\e[0m"
+	txID=$(${cardanocli} transaction txid --tx-file ${txSignedFile}); echo -e "\e[0m TxID is: \e[32m${txID}\e[0m"
 	checkError "$?"; if [ $? -ne 0 ]; then exit $?; fi;
 	echo -e "\e[0mTracking: \e[32m${transactionExplorer}/${txID}\n\e[0m"
 
