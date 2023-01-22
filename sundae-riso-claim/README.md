@@ -1,6 +1,6 @@
-# SundaeSwap RISO Rewards Claim Script
+# SundaeSwap (R)ISO Rewards Claim Script
 
-This small script can be used to claim the RISO rewards via a CLI stakeaddress, stake-key, paymentadress & payment-key.<br>
+This small script can be used to claim the (R)ISO rewards via a CLI stakeaddress, stake-key, paymentadress & payment-key.<br>
 The script is using the `koios` API to request the needed UTXO information.
 
 ## What binaries are needed
