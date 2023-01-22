@@ -1,0 +1,55 @@
+# SundaeSwap RISO Rewards Claim Script
+
+This small script can be used to claim the RISO rewards via a CLI stakeaddress, stake-key, paymentadress & payment-key.<br>
+The script is using the `koios` API to request the needed UTXO information.
+
+## What binaries are needed
+
+Make sure you have `curl`, `jq` and `xxd` installed on your system. If you're working with a debian/ubuntu based system you can simply install the packages via:
+
+``` console
+sudo apt update && sudo apt install curl jq xxd -y
+```
+
+## Install
+
+You just need to download the [script](https://raw.githubusercontent.com/gitmachtl/cardano-related-stuff/master/sundae-riso-claim/claimRISO.sh) to your linux machine and make it executable, like:
+``` console
+wget -OclaimRISO.sh https://raw.githubusercontent.com/gitmachtl/cardano-related-stuff/master/sundae-riso-claim/claimRISO.sh
+chmod +x claimRISO.sh
+``` 
+In case you also need `cardano-cli`, you can find the binary also in this repo.
+
+## Configuration
+
+The script needs a correctly set path to the `cardano-cli` binary. You can find the setting at the very top of the script. The default behavior is that the script is using `./cardano-cli`. If this is not available, it will try to search for the binary. If this doesn't work, set the correct path in the script.
+
+## Usage
+
+``` console
+./claimRISO.sh
+
+Usage: claimRISO.sh <StakeAddress> <PathToStake.skey> <PaymentAddress> <PathToPayment.skey>
+
+
+Parameters:
+
+         StakeAddress) The stake1... address which was delegated to a RISO pool at the time
+     PathToStake.skey) The path to the stake.skey file for the StakeAddress (needed to sign the transaction)
+       PaymentAddress) The addr1... address that is receiving the RISO rewards SUNDAE token and that pays for the fees
+   PathToPayment.skey) The path to the payment.skey file for the PaymentAddress (needed to sign the transaction)
+
+   Please use a small CLI payment wallet (~5 Ada) for that, don't use your plegde/owner wallet or a big one.
+
+
+Example:
+
+   claimRISO.sh myWallet stake1uypayp2nyzy66tmcz6yjuth59pym0df83rjpk0758fhqrncq8vcdz stake.skey addr1v9ux8dwy800s5pnq327g9uzh8f2fw98ldytxqaxumh3e8kqumfr6d payment.skey
+
+```
+
+## Disclaimer
+
+This script is using the API provided via SundaeSwap. Please only use a small payment address, and not your pledge address or one with a huge amount of ADA on it. Use it at your own risk!  
+
+If you're super happy with your claimed SUNDAE tokens, you can express your happiness by sending a little tip to `$gitmachtl`, thx 😄
