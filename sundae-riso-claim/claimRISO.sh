@@ -168,7 +168,7 @@ fi
 #Check if curl & jq is installed
 if ! exists curl; then echo -e "\e[33mYou need the little tool 'curl', its needed to fetch online data !\n\nInstall it on Ubuntu/Debian like:\n\e[97msudo apt update && sudo apt -y install curl\n\n\e[33mThx! :-)\e[0m\n"; exit 1; fi
 if ! exists jq; then echo -e "\e[33mYou need the little tool 'jq', its needed to do the json processing !\n\nInstall it on Ubuntu/Debian like:\n\e[97msudo apt update && sudo apt -y install jq\n\n\e[33mThx! :-)\e[0m\n"; exit 1; fi
-if ! exists xxd; then echo -e "\e[33mYou need the little tool 'xxd', its needed to do the hex/binary conversion !\n\nInstall it on Ubuntu/Debian like:\n\e[97msudo apt update && sudo apt -y install xxd\n\n\e[33mThx! :-)\e[0m\n"; exit 1; fi
+#if ! exists xxd; then echo -e "\e[33mYou need the little tool 'xxd', its needed to do the hex/binary conversion !\n\nInstall it on Ubuntu/Debian like:\n\e[97msudo apt update && sudo apt -y install xxd\n\n\e[33mThx! :-)\e[0m\n"; exit 1; fi
 
 
 #Get parameters
@@ -235,7 +235,7 @@ do
 	tx_index=$(jq -r ".[${tmpCnt}].tx_index" <<< ${utxoSet})
 	value=$(jq -r ".[${tmpCnt}].value" <<< ${utxoSet})
 	inputList+="{\"txId\": \"${tx_hash}\",\"index\": ${tx_index}},"
-	echo -e "\e[0m   Using UTXO [${tmpCnt}]:\t${tx_hash}#${tx_index}\t${value} lovelaces"
+	echo -e "\e[0m- using UTXO [${tmpCnt}]:\t${tx_hash}#${tx_index}\t${value} lovelaces"
 	utxoSum=$(( ${utxoSum} + ${value} ));
 	if [[ ${value} -ge 5000000 ]]; then break; fi #if we already have 5 ADA, stop it
 done
@@ -246,6 +246,7 @@ echo -e "\e[32mDONE\e[0m"
 #Request the claiming transaction from SundaeSwap
 echo
 echo -e "\e[0mRequesting the txCborHex from ${sundaeAPI}/rewards/claim:\e[0m"
+
 echo -ne "\e[0mQuery ... "
 response=$(curl -s -m 20 -X POST "${sundaeAPI}/rewards/claim" --data "{ \"addresses\": [\"${stakeAddr}\"], \"returnAddress\": \"${paymentAddr}\", \"inputs\": [ ${inputList} ] }" 2> /dev/null)
 #Check if the received json is a valid one
@@ -294,7 +295,7 @@ if ask "\n\e[33mDoes this look good for you, continue ?" N; then
 #	echo ${response}
 #	exit 1
 
-	${cardanocli} transaction submit --tx-file "${txRawFile}" --mainnet
+	${cardanocli} transaction submit --tx-file "${txSignedFile}" --mainnet
 	checkError "$?"; if [ $? -ne 0 ]; then exit $?; fi
 
 	echo -e "\e[32mDONE\n"
