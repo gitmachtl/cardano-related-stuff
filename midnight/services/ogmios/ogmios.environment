@@ -1,0 +1,6 @@
+socket="/home/midnight/cardano/node/db/node.socket"
+config="/home/midnight/cardano/node/config.json"
+hostaddr=127.0.0.1
+port=1337
+#loglevel="Debug"
+loglevel="Notice"

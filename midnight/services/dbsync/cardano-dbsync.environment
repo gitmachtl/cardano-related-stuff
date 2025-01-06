@@ -1,0 +1,8 @@
+socket="/home/midnight/cardano/node/db/node.socket"
+
+config="/home/midnight/cardano/dbsync/db-sync-config.json"
+statedir="/home/midnight/cardano/dbsync/ledger-state"
+schemadir="/home/midnight/cardano/dbsync/git/cardano-db-sync/schema/"
+
+PGPASSFILE="/home/midnight/cardano/postgres/pgpass"
+LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"

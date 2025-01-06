@@ -1,0 +1,17 @@
+
+#Kupo settings
+workdir="/home/midnight/cardano/kupo/db"
+port=1442
+#loglevel="Debug"
+loglevel="Warning"
+
+#Node settings
+socket="/home/midnight/cardano/node/db/node.socket"
+config="/home/midnight/cardano/node/config.json"
+
+#Sync settings
+#since="49974943.362ae82e2d5233037c8f6ec296fab8784cf71c59fb727362c5a6370977d0494a"
+since="origin"
+
+#Matches
+match='*'

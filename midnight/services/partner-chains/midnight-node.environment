@@ -1,0 +1,26 @@
+
+CARDANO_SECURITY_PARAMETER='432'
+CARDANO_ACTIVE_SLOTS_COEFF='0.05'
+DB_SYNC_POSTGRES_CONNECTION_STRING='psql://dbuser:dbpass@localhost:5432/cexplorer'
+MC__FIRST_EPOCH_TIMESTAMP_MILLIS='1666656000000'
+MC__EPOCH_DURATION_MILLIS='86400000'
+MC__FIRST_EPOCH_NUMBER='0'
+MC__FIRST_SLOT_NUMBER='0'
+BLOCK_STABILITY_MARGIN='0'
+SIDECHAIN_BLOCK_BENEFICIARY='6e76a8570430b447e92ac969213f940f4d5096de6931734ffdcb06a5b681b042'
+
+BOOTNODES="/dns/boot-node-01.testnet.midnight.network/tcp/30333/ws/p2p/12D3KooWMjUq13USCvQR9Y6yFzYNYgTQBLNAcmc8psAuPx2UUdnB \
+           /dns/boot-node-02.testnet.midnight.network/tcp/30333/ws/p2p/12D3KooWR1cHBUWPCqk3uqhwZqUFekfWj8T7ozK6S18DUT745v4d \
+           /dns/boot-node-03.testnet.midnight.network/tcp/30333/ws/p2p/12D3KooWQxxUgq7ndPfAaCFNbAxtcKYxrAzTxDfRGNktF75SxdX5"
+
+CHAIN_SPEC='/home/midnight/cardano/partner-chains/chain-spec.json'
+
+BASE_PATH='/home/midnight/cardano/partner-chains/data'
+
+KEYSTORE_PATH='/home/midnight/cardano/partner-chains/data/chains/testnet/keystore/'
+
+MIDNIGHT_PORT=30333
+
+POOL_LIMIT=10
+
+NODE_NAME='MYNODE'

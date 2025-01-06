@@ -1,0 +1,33 @@
+[Unit]
+Description=Cardano Ogmios
+After=multi-user.target
+
+[Service]
+Type=simple
+User=midnight
+EnvironmentFile=/home/midnight/cardano/ogmios/ogmios.environment
+
+Restart=always
+RestartSec=5s
+KillSignal=SIGINT
+TimeoutStopSec=30s
+FinalKillSignal=SIGKILL
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=ogmios
+
+WorkingDirectory=/home/midnight/cardano/
+LimitNOFILE=32768
+
+ExecStart=/home/midnight/cardano/ogmios/ogmios \
+--metadata-detailed-schema \
+--include-transaction-cbor \
+--node-socket ${socket} \
+--node-config ${config} \
+--log-level ${loglevel} \
+--host ${hostaddr} \
+--port ${port}
+
+[Install]
+WantedBy=multi-user.target
+

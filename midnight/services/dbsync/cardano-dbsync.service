@@ -1,0 +1,29 @@
+[Unit]
+Description=Cardano DB-Sync Service
+After=multi-user.target
+
+[Service]
+Type=simple
+User=midnight
+EnvironmentFile=/home/midnight/cardano/dbsync/cardano-dbsync.environment
+
+Restart=always
+RestartSec=30s
+KillSignal=SIGINT
+TimeoutStopSec=60s
+FinalKillSignal=SIGKILL
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=cardano-dbsync
+
+WorkingDirectory=/home/midnight/cardano/
+LimitNOFILE=65535
+
+ExecStart=/home/midnight/cardano/dbsync/cardano-db-sync \
+--config ${config} \
+--socket-path ${socket} \
+--state-dir ${statedir} \
+--schema-dir ${schemadir}
+
+[Install]
+WantedBy=multi-user.target

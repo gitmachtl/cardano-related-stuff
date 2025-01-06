@@ -1,0 +1,34 @@
+[Unit]
+Description=Cardano Kupo
+After=multi-user.target
+
+[Service]
+Type=simple
+User=midnight
+EnvironmentFile=/home/midnight/cardano/kupo/kupo.environment
+
+Restart=always
+RestartSec=5s
+KillSignal=SIGINT
+TimeoutStopSec=30s
+FinalKillSignal=SIGKILL
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=kupo
+
+WorkingDirectory=/home/midnight/cardano/
+LimitNOFILE=32768
+
+ExecStart=/home/midnight/cardano/kupo/kupo_290 \
+--node-socket ${socket} \
+--node-config ${config} \
+--port ${port} \
+--log-level ${loglevel} \
+--prune-utxo \
+--since ${since} \
+--match ${match} \
+--workdir ${workdir}
+
+[Install]
+WantedBy=multi-user.target
+

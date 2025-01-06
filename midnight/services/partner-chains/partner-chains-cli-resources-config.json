@@ -1,0 +1,17 @@
+{
+  "cardano_payment_verification_key_file": "payment.vkey",
+  "db_sync_postgres_connection_string": "postgresql://dbuser:dbpass@localhost:5432/cexplorer",
+  "kupo": {
+    "hostname": "localhost",
+    "port": 1442,
+    "protocol": "http"
+  },
+  "node_p2p_port": 30333,
+  "ogmios": {
+    "hostname": "localhost",
+    "port": 1337,
+    "protocol": "http"
+  },
+  "sidechain_block_beneficiary": "6e76a8570430b447e92ac969213f940f4d5096de6931734ffdcb06a5b681b042",
+  "substrate_node_base_path": "./data"
+}

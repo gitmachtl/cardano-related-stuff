@@ -1,0 +1,8 @@
+
+# Clone db-sync into the git subdirectory
+mkdir git; cd git; git clone https://github.com/intersectmbo/cardano-db-sync
+
+#because we need the 'schema' directory for the start up and we also need the
+#script(s) based in the 'scripts' directory, we just keep that whole git clone directory
+
+

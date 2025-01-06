@@ -1,0 +1,41 @@
+
+# Install script from
+https://cardano-community.github.io/guild-operators/Appendix/postgres/
+
+and also follow the other instruction there to generate the PGPASSFILE for the current user
+
+* For the direct db-sync connection we use the PGPASSFILE environment variable for the user that is
+also running db-sync. In that case there is no password needed.
+
+Follow the guidance on the following page to create the db-sync database
+https://cardano-community.github.io/guild-operators/Build/dbsync/
+
+
+#To create an additional superuser with a password for other services we can do the following
+#We need that for the midnight-node postgres calling line
+
+#change user to be the postgres user
+$ sudo su postgres
+
+#connect to postgres
+$ psql
+
+#to show all databases
+postgres=# \l 
+
+#to list all users
+postgres=# \du
+
+#to create a new user 'dbuser' with password 'dbpass'
+postgres=# CREATE USER dbuser WITH PASSWORD 'dbpass';
+postgres=# ALTER ROLE dbuser WITH SUPERUSER;
+postgres=# ALTER ROLE dbuser WITH CREATEDB;
+
+#to exit
+postgres=# \q
+
+
+
+
+
+

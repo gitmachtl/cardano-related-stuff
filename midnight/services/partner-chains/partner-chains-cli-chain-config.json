@@ -1,0 +1,29 @@
+{
+    "cardano": {
+        "network": 2,
+        "security_parameter": 432,
+        "active_slots_coeff": 0.05,
+        "first_epoch_number": 0,
+        "first_slot_number": 0,
+        "epoch_duration_millis": 86400000,
+        "first_epoch_timestamp_millis": 1666656000000
+    },
+    "chain_parameters": {
+        "chain_id": 23,
+        "genesis_committee_utxo": "f44d20261bd3e079cc76b4d9b32b3330fea793b465c490766df71be90e577d8a#0",
+        "threshold_numerator": 2,
+        "threshold_denominator": 3,
+        "governance_authority": "93f21ad1bba9ffc51f5c323e28a716c7f2a42c5b51517080b90028a6"
+    },
+    "cardano_addresses": {
+        "committee_candidates_address": "addr_test1wp9pehc6t5xem0ccsf7dhktw4hu749dfm83fxx6p8f4jzpqyh330x",
+        "d_parameter_policy_id": "f7e7b40ef803905a8567323f9d94fac536fe1cd3d8efbde5d249c5f7",
+        "permissioned_candidates_policy_id": "3e0a39f32961debeb7c5db0e5deb98833d70835fc7ec40a3185c4ae5"
+    },
+  "bootnodes": [
+    "/dns/boot-node-01.testnet.midnight.network/tcp/30333/p2p/12D3KooWMjUq13USCvQR9Y6yFzYNYgTQBLNAcmc8psAuPx2UUdnB",
+    "/dns/boot-node-02.testnet.midnight.network/tcp/30333/p2p/12D3KooWR1cHBUWPCqk3uqhwZqUFekfWj8T7ozK6S18DUT745v4d",
+    "/dns/boot-node-03.testnet.midnight.network/tcp/30333/p2p/12D3KooWQxxUgq7ndPfAaCFNbAxtcKYxrAzTxDfRGNktF75SxdX5"
+  ]
+}
+
