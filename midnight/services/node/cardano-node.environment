@@ -1,0 +1,8 @@
+topology="/home/midnight/cardano/node/topology.json"
+config="/home/midnight/cardano/node/config.json"
+socket="/home/midnight/cardano/node/db/node.socket"
+database="/home/midnight/cardano/node/db/"
+port=3001
+hostaddr=0.0.0.0
+
+LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"

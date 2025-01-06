@@ -1,0 +1,31 @@
+[Unit]
+Description=Cardano Node Service
+After=multi-user.target
+
+[Service]
+Type=simple
+User=midnight
+EnvironmentFile=/home/midnight/cardano/node/cardano-node.environment
+
+Restart=always
+RestartSec=30s
+KillSignal=SIGINT
+TimeoutStopSec=60s
+FinalKillSignal=SIGKILL
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=cardano-node
+
+WorkingDirectory=/home/midnight/cardano/
+LimitNOFILE=65535
+
+ExecStart=/home/midnight/node/cardano-node run \
+--topology ${topology} \
+--socket-path ${socket} \
+--database-path ${database} \
+--config ${config} \
+--port ${port} \
+--host-addr ${hostaddr}
+
+[Install]
+WantedBy=multi-user.target
