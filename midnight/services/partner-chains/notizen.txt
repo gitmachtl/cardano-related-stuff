@@ -1,0 +1,2 @@
+#extract binary
+tar -xf *.tar.gz
