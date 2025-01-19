@@ -23,7 +23,7 @@ ExecStart=/home/midnight/cardano/partner-chains/midnight-node \
 --no-private-ip \
 --validator \
 --pool-limit ${POOL_LIMIT} \
---trie-cache-size 8388608 \
+--trie-cache-size 0 \
 --chain ${CHAIN_SPEC} \
 --base-path ${BASE_PATH} \
 --port ${MIDNIGHT_PORT} \
