@@ -1,0 +1,137 @@
+{
+  "@context": {
+    "@language": "en-us",
+    "CIP100": "https://github.com/cardano-foundation/CIPs/blob/master/CIP-0100/README.md#",
+    "CIP108": "https://github.com/cardano-foundation/CIPs/blob/master/CIP-0108/README.md#",
+    "CIP119": "https://github.com/cardano-foundation/CIPs/blob/master/CIP-0119/README.md#",
+    "hashAlgorithm": "CIP100:hashAlgorithm",
+    "body": {
+      "@id": "CIP119:body",
+      "@context": {
+        "references": {
+          "@id": "CIP119:references",
+          "@container": "@set",
+          "@context": {
+            "GovernanceMetadata": "CIP100:GovernanceMetadataReference",
+            "Other": "CIP100:OtherReference",
+            "label": "CIP100:reference-label",
+            "uri": "CIP100:reference-uri",
+            "referenceHash": {
+              "@id": "CIP108:referenceHash",
+              "@context": {
+                "hashDigest": "CIP108:hashDigest",
+                "hashAlgorithm": "CIP100:hashAlgorithm"
+              }
+            }
+          }
+        },
+        "comment": "CIP100:comment",
+        "externalUpdates": {
+          "@id": "CIP100:externalUpdates",
+          "@context": {
+            "title": "CIP100:update-title",
+            "uri": "CIP100:update-uri"
+          }
+        },
+        "paymentAddress": "CIP119:paymentAddress",
+        "givenName": "CIP119:givenName",
+        "image": {
+          "@id": "CIP119:image",
+          "@context": {
+            "ImageObject": "https://schema.org/ImageObject"
+          }
+        },
+        "objectives": "CIP119:objectives",
+        "motivations": "CIP119:motivations",
+        "qualifications": "CIP119:qualifications",
+        "title": "CIP108:title",
+        "abstract": "CIP108:abstract",
+        "rationale": "CIP108:rationale"
+      }
+    },
+    "authors": {
+      "@id": "CIP100:authors",
+      "@container": "@set",
+      "@context": {
+        "name": "http://xmlns.com/foaf/0.1/name",
+        "witness": {
+          "@id": "CIP100:witness",
+          "@context": {
+            "witnessAlgorithm": "CIP100:witnessAlgorithm",
+            "publicKey": "CIP100:publicKey",
+            "signature": "CIP100:signature"
+          }
+        }
+      }
+    }
+  },
+  "hashAlgorithm": "blake2b-256",
+  "body": {
+    "title": "Voting Decision for gov_action1nd3t833j7v5sz65k3tp9yyvztw60sjcjgcgjr37682s3m7frwrusqmd2k80",
+    "givenName": "Martin Lang",
+    "image": {
+      "@type": "ImageObject",
+      "contentUrl": "https://raw.githubusercontent.com/gitmachtl/cardano-related-stuff/master/MartinLang.jpg",
+      "sha256": "c519440cd06d29851e8850a46d1c6c92832272e0b9d2a0c631cc1221e0c8b7bc"
+    },
+    "references": [
+      {
+        "@type": "Link",
+        "label": "X",
+        "uri": "https://x.com/ATADA_Stakepool"
+      },
+      {
+        "@type": "Link",
+        "label": "Telegram",
+        "uri": "https://t.me/atada_stakepool"
+      },
+      {
+        "@type": "Link",
+        "label": "SPO-Scripts",
+        "uri": "https://github.com/gitmachtl/scripts"
+      },
+      {
+        "@type": "Link",
+        "label": "Cardano-Signer",
+        "uri": "https://github.com/gitmachtl/cardano-signer"
+      },
+      {
+        "@type": "Link",
+        "label": "Cardano-Mnemonic-Rootkey",
+        "uri": "https://github.com/gitmachtl/cardano-related-stuff/tree/master/cardano-mnemonic-rootkey"
+      },
+      {
+        "@type": "Link",
+        "label": "Stakepool ATADA",
+        "uri": "https://stakepool.at"
+      },
+      {
+        "@type": "Identity",
+        "label": "X",
+        "uri": "https://x.com/ATADA_Stakepool"
+      },
+      {
+        "@type": "Link",
+        "label": "Telegram",
+        "uri": "https://t.me/atada_stakepool"
+      }
+    ],
+    "comment": "As a DRep, i have voted ✅YES for this proposal.\nIt clearly defines the timespan of the NCL: 'The 2025 Net Change Limit will begin at the start of Epoch 532 and continue for 72 epochs, finishing at the conclusion of Epoch 604 in December 2025'\nIt also defines what the NCL is - Its the total maximum amount we can withdrawal from the treasury during this time period. Independent from the inflow into the treasury via like tau or a treasury donation.\n\nTHIS IS A MAXIMUM LIMIT - similar to the guardrails!\n\nThis does NOT mean, that we have to spend all of that amount within the given timespan. The DReps are still voting on the Budget/Treasury Withdrawals that are coming along, and we DO NOT have to agree on all of them.\nSo the NCL is really a max. limit boundary per definition.\nI support this proposal so we can move forward with the Budget and Treasury-Withdrawals.",
+    "externalUpdates": [
+      {
+        "title": "Github",
+        "uri": "https://github.com/gitmachtl"
+      }
+    ]
+  },
+  "authors": [
+    {
+      "name": "Martin Lang",
+      "witness": {
+        "witnessAlgorithm": "ed25519",
+        "publicKey": "3f00a199ed27fb40d7ec8595d2d5dd66d0671a5d3159c53ebe265e682589580f",
+        "signature": "1c72f5251518866ceacb29e2d766ea7c1ce71c897146219c24645dc116e25f8e1517b6da052cb570fb86451cb731d3967481fda900d94ec484b057f57e08d502"
+      }
+    }
+  ]
+}
