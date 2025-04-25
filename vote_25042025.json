@@ -1,0 +1,132 @@
+{
+  "@context": {
+    "@language": "en-us",
+    "CIP100": "https://github.com/cardano-foundation/CIPs/blob/master/CIP-0100/README.md#",
+    "CIP108": "https://github.com/cardano-foundation/CIPs/blob/master/CIP-0108/README.md#",
+    "CIP119": "https://github.com/cardano-foundation/CIPs/blob/master/CIP-0119/README.md#",
+    "hashAlgorithm": "CIP100:hashAlgorithm",
+    "body": {
+      "@id": "CIP119:body",
+      "@context": {
+        "references": {
+          "@id": "CIP119:references",
+          "@container": "@set",
+          "@context": {
+            "GovernanceMetadata": "CIP100:GovernanceMetadataReference",
+            "Other": "CIP100:OtherReference",
+            "label": "CIP100:reference-label",
+            "uri": "CIP100:reference-uri",
+            "referenceHash": {
+              "@id": "CIP108:referenceHash",
+              "@context": {
+                "hashDigest": "CIP108:hashDigest",
+                "hashAlgorithm": "CIP100:hashAlgorithm"
+              }
+            }
+          }
+        },
+        "comment": "CIP100:comment",
+        "externalUpdates": {
+          "@id": "CIP100:externalUpdates",
+          "@context": {
+            "title": "CIP100:update-title",
+            "uri": "CIP100:update-uri"
+          }
+        },
+        "paymentAddress": "CIP119:paymentAddress",
+        "givenName": "CIP119:givenName",
+        "image": {
+          "@id": "CIP119:image",
+          "@context": {
+            "ImageObject": "https://schema.org/ImageObject"
+          }
+        },
+        "objectives": "CIP119:objectives",
+        "motivations": "CIP119:motivations",
+        "qualifications": "CIP119:qualifications",
+        "title": "CIP108:title",
+        "abstract": "CIP108:abstract",
+        "rationale": "CIP108:rationale"
+      }
+    },
+    "authors": {
+      "@id": "CIP100:authors",
+      "@container": "@set",
+      "@context": {
+        "name": "http://xmlns.com/foaf/0.1/name",
+        "witness": {
+          "@id": "CIP100:witness",
+          "@context": {
+            "witnessAlgorithm": "CIP100:witnessAlgorithm",
+            "publicKey": "CIP100:publicKey",
+            "signature": "CIP100:signature"
+          }
+        }
+      }
+    }
+  },
+  "hashAlgorithm": "blake2b-256",
+  "body": {
+    "title": "Voting Decision for gov_action10k0unljvaej0kd89w7pn0zkgdx59c7xkl0x5q78dzvdtd73u0kmqq5xl5y5",
+    "givenName": "Martin Lang",
+    "image": {
+      "@type": "ImageObject",
+      "contentUrl": "https://raw.githubusercontent.com/gitmachtl/cardano-related-stuff/master/MartinLang.jpg",
+      "sha256": "c519440cd06d29851e8850a46d1c6c92832272e0b9d2a0c631cc1221e0c8b7bc"
+    },
+    "references": [
+      {
+        "@type": "Link",
+        "label": "X",
+        "uri": "https://x.com/ATADA_Stakepool"
+      },
+      {
+        "@type": "Link",
+        "label": "Telegram",
+        "uri": "https://t.me/atada_stakepool"
+      },
+      {
+        "@type": "Link",
+        "label": "SPO-Scripts",
+        "uri": "https://github.com/gitmachtl/scripts"
+      },
+      {
+        "@type": "Link",
+        "label": "Cardano-Signer",
+        "uri": "https://github.com/gitmachtl/cardano-signer"
+      },
+      {
+        "@type": "Link",
+        "label": "Stakepool ATADA",
+        "uri": "https://stakepool.at"
+      },
+      {
+        "@type": "Identity",
+        "label": "X",
+        "uri": "https://x.com/ATADA_Stakepool"
+      },
+      {
+        "@type": "Link",
+        "label": "Telegram",
+        "uri": "https://t.me/atada_stakepool"
+      }
+    ],
+    "comment": "As a DRep, i have voted ❌NO on this proposal, because i already voted YES on the last one which passed yesterday.\nIts a LIMIT, the actual Budget/Proposal-Buckets have to be approved by the dReps anyway.",
+    "externalUpdates": [
+      {
+        "title": "Github",
+        "uri": "https://github.com/gitmachtl"
+      }
+    ]
+  },
+  "authors": [
+    {
+      "name": "Martin Lang",
+      "witness": {
+        "witnessAlgorithm": "ed25519",
+        "publicKey": "3f00a199ed27fb40d7ec8595d2d5dd66d0671a5d3159c53ebe265e682589580f",
+        "signature": "2f645c85dbcdb2e2ded272e59271f9b5c48877aff32b6af16ae7c78fd1acde5ab4b1cef4a906d4171e177639b065f8942e24653401d0d1589d51928b23fd0802"
+      }
+    }
+  ]
+}
