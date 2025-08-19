@@ -10,6 +10,9 @@ Hey, my name is Martin Lang. I am a StakePool Operator, Developer, dRep and Amba
 
 It takes only 1 min to fill out the form on this website:<p>
 <a href="https://summit.cardano.org/page/5108379/summit-awards" target="_blank">https://summit.cardano.org/page/5108379/summit-awards</a>
+
+You can use this URL for the `Project-Website` in the form, so they also see this page:<p>
+https://github.com/gitmachtl/cardano-related-stuff/blob/master/MartinLang.md
 <p></p>
 Thank you very much, Martin</p>
 &nbsp;<p></p>
