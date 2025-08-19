@@ -22,7 +22,7 @@ Here are a handful of things i am working on:
 <img width=50% src="https://user-images.githubusercontent.com/47434720/190806957-114b1342-7392-4256-9c5b-c65fc0068659.png">
 Cardano Signer is the only Open-Source Multi-OS (Linux, Mac, Windows, Arm) Command-Line Tool that can Sign, Verify & Generate a lot of Cardano related things like:<p></p>
 
-  - CIP8/30 message signing for ALL different keys on Cardano
+  - CIP8/30 Message-Signing and Verification for ALL different keys on Cardano
   - Calidus Key Generation, Verification and Registration-Data signing CIP88v2/151
   - General ed25519 Signing and Verification
   - Key Generation from Mnemonics from Byron Daedalus, Byron Yoroi, Shelley 12-24 Words, Ledger Hardware-Wallet, Trezor Hardware-Wallet style derivation
