@@ -2,17 +2,15 @@
 
 ## About me
 <img align=right width=20% style="float:right; padding-right:10px" src="https://github.com/gitmachtl/cardano-related-stuff/blob/master/MartinLang.jpg">
-Hey, my name is Martin Lang. I am a StakePool Operator, Developer, dRep and Ambassador. It would mean a lot to me if you could take the short time to look at the things below and to get a nomination from you for this years Cardano Summit Award 2025 in one or more of the following categories in that order:<p></p>
+Hey, my name is Martin Lang. I am a StakePool Operator, Developer, dRep and Ambassador. It would mean a lot to me if you could take the short time to look at the things below and to vote for me for this years Cardano Summit Awards 2025 in the category:<p></p>
 
-  1. Developer & Tooling Excellence
-  2. Impactful SPO
-  3. Governance Champion
+  1. Impactful SPO -> ATADA
+  2. Developer & Tooling Excellence -> Cardano-Signer/SPO-Scripts
+  
+It takes only 5 mins to connect your choosen wallet, verify it and submit the votes.<p>
 
-It takes only 1 min to fill out the form on this website:<p>
-<a href="https://summit.cardano.org/page/5108379/summit-awards" target="_blank">https://summit.cardano.org/page/5108379/summit-awards</a>
+### :fire: [Short tutorial on how to vote](#how-to-vote-for-the-cardano-summit-awards-2025)
 
-You can use this URL for the `Project-Website` in the form, so they also see this page:<p>
-https://github.com/gitmachtl/cardano-related-stuff/blob/master/MartinLang.md
 <p></p>
 Thank you very much, Martin</p>
 &nbsp;<p></p>
@@ -97,3 +95,32 @@ There are more things but i think i don't have to list them all here.
 It would mean a lot to me if i could get your support on this!
 
 **Thank you very much again, Martin.**
+
+-----
+
+## How to vote for my work for the Cardano Summit Awards 2025
+
+* Go to the website https://voting.summit.cardano.org/ and connect your wallet of your choice
+  <img width="1561" height="863" alt="image" src="https://github.com/user-attachments/assets/193dbc98-12fc-409e-a370-37b870fddc5f" />
+
+* Choose whatever wallet you wanna use. This is only used to sign messages, **no transactions will be done**!
+  <img width="443" height="526" alt="image" src="https://github.com/user-attachments/assets/d71926c9-088b-438f-97c6-8cbbcfca46e3" />
+
+* You might need to verify your wallet quickly if you have not done that before, choose your prefered verification method:
+  <img width="441" height="284" alt="image" src="https://github.com/user-attachments/assets/6c5b29f6-a8fd-4113-a8be-5f84c2228492" />
+  <img width="441" height="254" alt="image" src="https://github.com/user-attachments/assets/d06ea0fd-41b4-4f83-a4e2-016ea2fbb97f" />
+
+* Once verified, connect to the wallet again and than you can start voting. You must submit/sign every category on itself. Starting with the `Impactful SPO` category, please choose `ATADA` and click the `Vote Now` button to message sign your vote
+  <img width="1443" height="894" alt="image" src="https://github.com/user-attachments/assets/64bb34b7-1f0b-4f25-885b-23f6eb14544e" />
+
+* After that, please head over to the `Developer & Tooling Excellence` section, select `Cardano-Signer/SPO-Scripts` and hit the `Vote Now` button again to also message sign this vote.
+  <img width="1438" height="610" alt="image" src="https://github.com/user-attachments/assets/fe56a50e-9de0-4843-a6ac-e3ec8a978503" />
+
+* There might pop up a `LOGIN` window message after each vote, you don't have to login to the page really. You can of course do it to check your sent vote ballots.
+
+* **DONE, THANK YOU VERY MUCH FOR YOUR VOTE!**
+
+
+
+
+
