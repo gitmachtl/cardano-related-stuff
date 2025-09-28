@@ -9,7 +9,7 @@ Hey, my name is Martin Lang. I am a StakePool Operator, Developer, dRep and Amba
   
 It takes only 5 mins to connect your choosen wallet, verify it and submit the votes.<p>
 
-### :fire: [Short tutorial on how to vote](#how-to-vote-for-the-cardano-summit-awards-2025)
+### :fire: [Short tutorial on how to vote](how-to-vote-for-the-cardano-summit-awards-2025)
 
 <p></p>
 Thank you very much, Martin</p>
