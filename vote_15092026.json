@@ -1,0 +1,65 @@
+{
+  "@context": {
+    "CIP100": "https://github.com/cardano-foundation/CIPs/blob/master/CIP-0100/README.md#",
+    "hashAlgorithm": "CIP100:hashAlgorithm",
+    "body": {
+      "@id": "CIP100:body",
+      "@context": {
+        "references": {
+          "@id": "CIP100:references",
+          "@container": "@set",
+          "@context": {
+            "GovernanceMetadata": "CIP100:GovernanceMetadataReference",
+            "Other": "CIP100:OtherReference",
+            "label": "CIP100:reference-label",
+            "uri": "CIP100:reference-uri",
+            "referenceHash": {
+              "@id": "CIP100:referenceHash",
+              "@context": {
+                "hashDigest": "CIP100:hashDigest",
+                "hashAlgorithm": "CIP100:hashAlgorithm"
+              }
+            }
+          }
+        },
+        "comment": "CIP100:comment",
+        "externalUpdates": {
+          "@id": "CIP100:externalUpdates",
+          "@context": {
+            "title": "CIP100:update-title",
+            "uri": "CIP100:uri"
+          }
+        }
+      }
+    },
+    "authors": {
+      "@id": "CIP100:authors",
+      "@container": "@set",
+      "@context": {
+        "name": "http://xmlns.com/foaf/0.1/name",
+        "witness": {
+          "@id": "CIP100:witness",
+          "@context": {
+            "witnessAlgorithm": "CIP100:witnessAlgorithm",
+            "publicKey": "CIP100:publicKey",
+            "signature": "CIP100:signature"
+          }
+        }
+      }
+    }
+  },
+  "authors": [
+    {
+      "name": "Martin Lang",
+      "witness": {
+        "witnessAlgorithm": "ed25519",
+        "publicKey": "3f00a199ed27fb40d7ec8595d2d5dd66d0671a5d3159c53ebe265e682589580f",
+        "signature": "18035dcd935197fbc3a4b1f581c494cd27ca37b75cd5fd266502aa0225fd3d705df0f15d895a3a38db33f87bf298936300c1e101f8c7f7b244882f2ba6c62e0e"
+      }
+    }
+  ],
+  "body": {
+    "comment": "As a DRep and SPO, i am voting ❌NO on this proposal, because we need a minMargin parameter of at least 5% first before thinking about to lower minPoolCost even more. Does not make any sense to me, there is still a threshold which puts small pools in a disadvantage. Getting rid of minPoolCost while introduction minMargin is the way to go! But i am against any lowering of minPoolCost without introducing a minMargin parameter with a sustainable number parameter first."
+  },
+  "hashAlgorithm": "blake2b-256"
+}
