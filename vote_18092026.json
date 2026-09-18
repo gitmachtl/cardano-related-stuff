@@ -1,0 +1,65 @@
+{
+  "@context": {
+    "CIP100": "https://github.com/cardano-foundation/CIPs/blob/master/CIP-0100/README.md#",
+    "hashAlgorithm": "CIP100:hashAlgorithm",
+    "body": {
+      "@id": "CIP100:body",
+      "@context": {
+        "references": {
+          "@id": "CIP100:references",
+          "@container": "@set",
+          "@context": {
+            "GovernanceMetadata": "CIP100:GovernanceMetadataReference",
+            "Other": "CIP100:OtherReference",
+            "label": "CIP100:reference-label",
+            "uri": "CIP100:reference-uri",
+            "referenceHash": {
+              "@id": "CIP100:referenceHash",
+              "@context": {
+                "hashDigest": "CIP100:hashDigest",
+                "hashAlgorithm": "CIP100:hashAlgorithm"
+              }
+            }
+          }
+        },
+        "comment": "CIP100:comment",
+        "externalUpdates": {
+          "@id": "CIP100:externalUpdates",
+          "@context": {
+            "title": "CIP100:update-title",
+            "uri": "CIP100:uri"
+          }
+        }
+      }
+    },
+    "authors": {
+      "@id": "CIP100:authors",
+      "@container": "@set",
+      "@context": {
+        "name": "http://xmlns.com/foaf/0.1/name",
+        "witness": {
+          "@id": "CIP100:witness",
+          "@context": {
+            "witnessAlgorithm": "CIP100:witnessAlgorithm",
+            "publicKey": "CIP100:publicKey",
+            "signature": "CIP100:signature"
+          }
+        }
+      }
+    }
+  },
+  "authors": [
+    {
+      "name": "Martin Lang",
+      "witness": {
+        "witnessAlgorithm": "ed25519",
+        "publicKey": "3f00a199ed27fb40d7ec8595d2d5dd66d0671a5d3159c53ebe265e682589580f",
+        "signature": "650f1a7e99d1a0f5e0328cdfee14b787227f32362f2047e8695ee45d26e44f4599431edf369678a3a53f079474b9902cde6da12d5e2bdf8b14ef732651a4e500"
+      }
+    }
+  ],
+  "body": {
+    "comment": "I am voting ❌NO on this raising k to 1000, here are some of my reasons in random order:\n- total misconception of where redelegated ada will flow. it will NOT flow to small/tiny pools. if even, stake will flow to midrange pools near the new saturation point of ~35M. not to pools below 10M imo.\n- not sustainable with current ada price, typical pool values generate low rewards for spos. keep it sustainable for the current pools, don't make it unsustainable for all pools.\n- extremely big risk to force delegators to redelegate during this bear market. rewards on cardano are generally low nowadays. i predict that many stakers will leave the cardano ecosystem as a whole, because there are options with a much higher roi out there.\n- the pools that will suffer from such a change are community pools that have done nothing wrong in the past 6 years, they worked hard to gain stake and delegators over time. such a k change to 1000 would drive them into saturation. which hurt the delegators of such community pools a big time.\n- changing k to 1000 is like stealing staking from large community pools, enterprise pools simply split. it does not hurt them.\n- enterprise pools with full delegation control will simply double there pools. larger community pools will suffer.\n- i wanna see CIP50 play out first. we got it to be implemented, now we should not frontrun its activation and pledge depending saturation level playout with a k change.\n- we have a good decentralization, we dont need more pools\n- some are suggesting to split pools, which only drives up hardware and costs. better if an SPO can run one pool instead of two pools with half the amount for stake each."
+  },
+  "hashAlgorithm": "blake2b-256"
+}
